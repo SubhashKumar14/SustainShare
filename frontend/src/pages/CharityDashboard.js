@@ -34,7 +34,7 @@ const CharityDashboard = () => {
     if (charityLocation && foodItems.length > 0) {
       calculateDistances();
     }
-  }, [charityLocation, foodItems]);
+  }, [charityLocation, foodItems]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadCharityLocation = async () => {
     try {
