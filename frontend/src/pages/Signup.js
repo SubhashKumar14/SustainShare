@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import API from "../services/api";
 import notificationService from "../services/notificationService";
+import statsService from "../services/statsService";
 import "./Auth.css";
 
 const Signup = () => {
