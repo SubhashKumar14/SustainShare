@@ -36,15 +36,9 @@ class StatsService {
     return this.localIncrementActiveDonors();
   }
 
-  // Increment partner charities when new charity signs up
+  // Increment partner charities when new charity signs up - localStorage only until backend is ready
   async incrementPartnerCharities() {
-    try {
-      const response = await API.post("/stats/partner-charities/increment");
-      return response.data;
-    } catch (error) {
-      console.error("Error incrementing partner charities:", error);
-      throw error;
-    }
+    return this.localIncrementPartnerCharities();
   }
 
   // Record donation completion
