@@ -19,10 +19,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        formData,
-      );
+      const res = await API.post("/auth/login", formData);
       toast.success("Login successful!", {
         position: "top-center",
         autoClose: 2000,
@@ -31,9 +28,9 @@ const Login = () => {
       // Redirect with slight delay for toast to show
       setTimeout(() => {
         const { role } = res.data;
-        if (role === "donor") navigate("/donor");
-        else if (role === "charity") navigate("/charity");
-        else if (role === "admin") navigate("/admin");
+        if (role === "DONOR" || role === "donor") navigate("/donor");
+        else if (role === "CHARITY" || role === "charity") navigate("/charity");
+        else if (role === "ADMIN" || role === "admin") navigate("/admin");
         else navigate("/"); // fallback
       }, 2000);
     } catch (err) {
