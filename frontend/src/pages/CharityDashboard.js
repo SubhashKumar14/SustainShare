@@ -1,18 +1,27 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
-import API from '../services/api';
-import { toast } from 'react-toastify';
-import MapView from '../components/MapView';
-import { FaHeart, FaClock, FaMapMarkerAlt, FaSearch, FaUtensils, FaTruck } from 'react-icons/fa';
-import './CharityDashboard.css';
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import API from "../services/api";
+import notificationService from "../services/notificationService";
+import MapView from "../components/MapView";
+import locationService from "../utils/locationService";
+import {
+  FaHeart,
+  FaClock,
+  FaMapMarkerAlt,
+  FaSearch,
+  FaUtensils,
+  FaTruck,
+  FaRoute,
+} from "react-icons/fa";
+import "./CharityDashboard.css";
 
 const CharityDashboard = () => {
   const navigate = useNavigate();
   const { currentCharity } = useContext(AuthContext);
   const [foodItems, setFoodItems] = useState([]);
   const [selectedDonation, setSelectedDonation] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isClaiming, setIsClaiming] = useState(false);
 
   useEffect(() => {
@@ -21,10 +30,10 @@ const CharityDashboard = () => {
 
   const fetchAvailableFood = async () => {
     try {
-      const res = await API.get('/food');
+      const res = await API.get("/food");
       setFoodItems(res.data);
     } catch (error) {
-      console.error('Error fetching food:', error);
+      console.error("Error fetching food:", error);
       toast.error("Failed to fetch available food");
     }
   };
@@ -46,20 +55,20 @@ const CharityDashboard = () => {
 
     setIsClaiming(true);
     try {
-      await API.post('/pickups', {
+      await API.post("/pickups", {
         scheduledTime,
         foodItem: { id: foodItem.id },
         charity: { id: currentCharity.id },
-        status: "Scheduled"
+        status: "Scheduled",
       });
       toast.success(
         <div>
           <FaTruck /> Pickup scheduled successfully!
-          <div style={{ fontSize: '0.9em', marginTop: '5px' }}>
+          <div style={{ fontSize: "0.9em", marginTop: "5px" }}>
             {foodItem.name} at {time}
           </div>
         </div>,
-        { autoClose: 3000 }
+        { autoClose: 3000 },
       );
       setSelectedDonation(foodItem);
     } catch (error) {
@@ -70,15 +79,18 @@ const CharityDashboard = () => {
     }
   };
 
-  const filteredFood = foodItems.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.pickupLocation.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFood = foodItems.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.pickupLocation.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
     <div className="charity-dashboard">
       <header className="dashboard-header">
-        <h1><FaHeart /> Charity Dashboard</h1>
+        <h1>
+          <FaHeart /> Charity Dashboard
+        </h1>
         <p>Claim available food donations</p>
       </header>
 
@@ -105,10 +117,12 @@ const CharityDashboard = () => {
             {filteredFood.map((item) => (
               <div key={item.id} className="food-card">
                 <div className="food-header">
-                  <h3><FaUtensils /> {item.name}</h3>
+                  <h3>
+                    <FaUtensils /> {item.name}
+                  </h3>
                   <span className="quantity-badge">{item.quantity} units</span>
                 </div>
-                
+
                 <div className="food-details">
                   <div className="detail-row">
                     <FaMapMarkerAlt />
@@ -126,7 +140,7 @@ const CharityDashboard = () => {
                     className="claim-btn"
                     disabled={isClaiming}
                   >
-                    {isClaiming ? 'Processing...' : 'Claim Donation'}
+                    {isClaiming ? "Processing..." : "Claim Donation"}
                   </button>
                   <button
                     onClick={() => {
@@ -134,7 +148,7 @@ const CharityDashboard = () => {
                         toast.error("Invalid donation ID");
                         return;
                       }
-                      navigate(`/track/${item.id}`);  // Correct navigation with ID
+                      navigate(`/track/${item.id}`); // Correct navigation with ID
                     }}
                     className="track-btn"
                   >
@@ -148,7 +162,7 @@ const CharityDashboard = () => {
 
         {selectedDonation && currentCharity && (
           <div className="map-container">
-            <MapView 
+            <MapView
               donorLocation={selectedDonation.location}
               charityLocation={currentCharity.location}
             />
