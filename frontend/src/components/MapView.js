@@ -92,7 +92,6 @@ const MapView = ({
       } catch (error) {
         console.error("Error resolving locations:", error);
         setError("Unable to load map locations. Please check the addresses.");
-        notificationService.error("Map location error: " + error.message);
       } finally {
         setLoading(false);
       }
@@ -109,42 +108,45 @@ const MapView = ({
     }
   }, [donorLocation, charityLocation, donorAddress, charityAddress]);
 
-  // Calculate distance in km using Haversine formula
-  const calculateDistance = (coord1, coord2) => {
-    const [lat1, lon1] = coord1;
-    const [lat2, lon2] = coord2;
-
-    const R = 6371; // Earth's radius in km
-    const dLat = ((lat2 - lat1) * Math.PI) / 180;
-    const dLon = ((lon2 - lon1) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((lat1 * Math.PI) / 180) *
-        Math.cos((lat2 * Math.PI) / 180) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return (R * c).toFixed(2); // Distance in km with 2 decimals
-  };
-
-  // Estimate travel time (assuming 30km/h average speed)
-  const calculateTravelTime = (distance) => {
-    const hours = distance / 30;
-    if (hours < 1) {
-      return `${Math.round(hours * 60)} minutes`;
-    }
-    return `${hours.toFixed(1)} hours`;
-  };
-
   const toggleRoute = () => setRouteVisible(!routeVisible);
-  const centerMap = () =>
-    setMapCenter([
-      (donorLocation[0] + charityLocation[0]) / 2,
-      (donorLocation[1] + charityLocation[1]) / 2,
-    ]);
 
-  if (!donorLocation || !charityLocation) {
-    return <div className="map-placeholder">Loading locations...</div>;
+  const centerMap = () => {
+    if (actualDonorLocation && actualCharityLocation) {
+      setMapCenter([
+        (actualDonorLocation[0] + actualCharityLocation[0]) / 2,
+        (actualDonorLocation[1] + actualCharityLocation[1]) / 2,
+      ]);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="map-placeholder">
+        <div>Loading map locations...</div>
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="map-placeholder error">
+        <FaExclamationTriangle />
+        <div>{error}</div>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
+
+  if (!actualDonorLocation || !actualCharityLocation) {
+    return (
+      <div className="map-placeholder">
+        <div>Unable to load map locations</div>
+        <div>
+          Please check that both donor and charity locations are available
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -165,10 +167,10 @@ const MapView = ({
       </div>
 
       <MapContainer
-        center={mapCenter}
+        center={mapCenter || actualDonorLocation}
         zoom={13}
         className="map-view"
-        whenCreated={(map) => map.fitBounds([donorLocation, charityLocation])}
+        key={`${actualDonorLocation}-${actualCharityLocation}`}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -176,12 +178,17 @@ const MapView = ({
         />
 
         {/* Donor Marker */}
-        <Marker position={donorLocation} icon={donorIcon}>
+        <Marker position={actualDonorLocation} icon={donorIcon}>
           <Popup>
             <div className="map-popup">
               <h3>Donor Location</h3>
               <p>Food available for pickup</p>
               {distance && <p>{distance} km from charity</p>}
+              {donorAddress && (
+                <p>
+                  <small>{donorAddress}</small>
+                </p>
+              )}
             </div>
           </Popup>
           <Tooltip permanent direction="top">
@@ -190,12 +197,17 @@ const MapView = ({
         </Marker>
 
         {/* Charity Marker */}
-        <Marker position={charityLocation} icon={charityIcon}>
+        <Marker position={actualCharityLocation} icon={charityIcon}>
           <Popup>
             <div className="map-popup">
               <h3>Charity Location</h3>
               <p>Food distribution point</p>
               {distance && <p>{distance} km from donor</p>}
+              {charityAddress && (
+                <p>
+                  <small>{charityAddress}</small>
+                </p>
+              )}
             </div>
           </Popup>
           <Tooltip permanent direction="top">
@@ -206,7 +218,7 @@ const MapView = ({
         {/* Route Line */}
         {routeVisible && (
           <Polyline
-            positions={[donorLocation, charityLocation]}
+            positions={[actualDonorLocation, actualCharityLocation]}
             color="#3b82f6"
             weight={4}
             dashArray="10, 10"
