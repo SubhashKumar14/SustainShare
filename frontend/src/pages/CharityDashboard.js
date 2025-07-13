@@ -108,9 +108,9 @@ const CharityDashboard = () => {
     setIsClaiming(true);
     try {
       await API.post("/pickups", {
-        scheduledTime,
-        foodItem: { id: foodItem.id },
-        charity: { id: currentCharity.id },
+        scheduled_time: scheduledTime,
+        food_item_id: foodItem.id,
+        charity_id: currentCharity.id,
         status: "Scheduled",
       });
 
