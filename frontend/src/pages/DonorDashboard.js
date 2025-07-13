@@ -52,7 +52,16 @@ const DonorDashboard = () => {
     console.log("Submitting:", formData); // Debugging
 
     try {
-      await API.post("/food", formData);
+      // Map frontend field names to backend/SQL field names
+      const mappedData = {
+        name: formData.name,
+        quantity: parseInt(formData.quantity) || 0,
+        pickup_location: formData.pickupLocation,
+        expiry_time: formData.expiryTime,
+        donor_id: formData.donorId,
+      };
+
+      await API.post("/food", mappedData);
       notificationService.success("Food posted successfully!");
       setFormData({
         name: "",
