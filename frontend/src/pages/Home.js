@@ -67,17 +67,25 @@ const Home = () => {
       <section className="stats-section">
         <div className="stat-card">
           <div className="icon">👥</div>
-          <h3>+</h3>
+          <h3>
+            {stats.loading ? "..." : `${stats.peopleFed.toLocaleString()}+`}
+          </h3>
           <p>People Fed This Year</p>
         </div>
         <div className="stat-card">
           <div className="icon">💙</div>
-          <h3>+</h3>
+          <h3>
+            {stats.loading ? "..." : `${stats.activeDonors.toLocaleString()}+`}
+          </h3>
           <p>Active Donors</p>
         </div>
         <div className="stat-card">
           <div className="icon">🎯</div>
-          <h3>+</h3>
+          <h3>
+            {stats.loading
+              ? "..."
+              : `${stats.partnerCharities.toLocaleString()}+`}
+          </h3>
           <p>Partner Charities</p>
         </div>
       </section>
