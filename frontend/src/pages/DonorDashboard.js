@@ -14,13 +14,14 @@ import "./DonorDashboard.css";
 import MapView from "../components/MapView";
 
 const DonorDashboard = () => {
+  const { currentUser } = useContext(AuthContext);
   const [claimedDonations] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     quantity: "",
     pickupLocation: "",
     expiryTime: "",
-    donorId: "",
+    donorId: currentUser?.id || "donor_placeholder",
   });
   const [foodList, setFoodList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
