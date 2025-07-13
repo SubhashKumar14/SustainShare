@@ -80,9 +80,7 @@ const DonorDashboard = () => {
       fetchFoodList();
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("Failed to delete food item", {
-        position: "top-center",
-      });
+      notificationService.error("Failed to delete food item");
     }
   };
 
