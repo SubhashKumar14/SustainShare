@@ -16,6 +16,25 @@ const Home = () => {
   // Ref for Learn More section
   const learnMoreRef = useRef(null);
 
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const statsData = await statsService.getStats();
+        setStats({
+          peopleFed: statsData.peopleFed || 0,
+          activeDonors: statsData.activeDonors || 0,
+          partnerCharities: statsData.partnerCharities || 0,
+          loading: false,
+        });
+      } catch (error) {
+        console.error("Error loading stats:", error);
+        setStats((prev) => ({ ...prev, loading: false }));
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   const handleLearnMore = () => {
     setShowLearnMore(true);
     setTimeout(() => {
