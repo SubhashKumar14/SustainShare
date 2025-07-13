@@ -64,9 +64,7 @@ const DonorDashboard = () => {
       fetchFoodList();
     } catch (error) {
       console.error("Error posting food:", error.response || error.message);
-      toast.error("Failed to post food", {
-        position: "top-center",
-      });
+      notificationService.error("Failed to post food");
     } finally {
       setIsSubmitting(false);
     }
