@@ -81,6 +81,18 @@ const Signup = () => {
     }
 
     try {
+      // Test backend connectivity first
+      const backendTest = await testBackendConnection();
+      console.log("Backend connectivity test:", backendTest);
+
+      if (!backendTest.success) {
+        notificationService.error(
+          "Backend server is not running. Please start the backend server.",
+        );
+        setIsLoading(false);
+        return;
+      }
+
       const payload = {
         id: user.userId,
         name: user.name,
