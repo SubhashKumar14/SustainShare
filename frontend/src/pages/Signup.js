@@ -92,12 +92,8 @@ const Signup = () => {
       try {
         if (user.role === "DONOR") {
           statsService.localIncrementActiveDonors();
-          // Also try to update on server
-          statsService.incrementActiveDonors().catch(console.error);
         } else if (user.role === "CHARITY") {
           statsService.localIncrementPartnerCharities();
-          // Also try to update on server
-          statsService.incrementPartnerCharities().catch(console.error);
         }
       } catch (error) {
         console.error("Error updating statistics:", error);
