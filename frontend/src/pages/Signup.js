@@ -15,6 +15,7 @@ import "./Auth.css";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordError, setPasswordError] = useState("");
   const [userIdError, setUserIdError] = useState("");
