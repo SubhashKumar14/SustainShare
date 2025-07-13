@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import statsService from "../services/statsService";
+import BackendDebug from "../components/BackendDebug";
 
 const Home = () => {
   const navigate = useNavigate();
