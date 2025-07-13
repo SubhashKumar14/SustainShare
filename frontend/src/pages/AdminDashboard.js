@@ -1,27 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { FaBox, FaUtensils, FaUsers, FaSearch, FaClock, FaMapMarkerAlt, FaUserTag } from 'react-icons/fa';
-import './AdminDashboard.css';
-import MapView from '../components/MapView';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  FaBox,
+  FaUtensils,
+  FaUsers,
+  FaSearch,
+  FaClock,
+  FaMapMarkerAlt,
+  FaUserTag,
+} from "react-icons/fa";
+import "./AdminDashboard.css";
+import MapView from "../components/MapView";
 const AdminDashboard = () => {
-  const [activePickups, setActivePickups] = useState([]);
+  const [activePickups] = useState([]);
   const [pickups, setPickups] = useState([]);
   const [food, setFood] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState({
     pickups: true,
     food: true,
-    users: true
+    users: true,
   });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [pickupsRes, foodRes, usersRes] = await Promise.all([
-          axios.get('http://localhost:8080/api/pickups'),
-          axios.get('http://localhost:8080/api/food'),
-          axios.get('http://localhost:8080/api/users')
+          axios.get("http://localhost:8080/api/pickups"),
+          axios.get("http://localhost:8080/api/food"),
+          axios.get("http://localhost:8080/api/users"),
         ]);
         setPickups(pickupsRes.data);
         setFood(foodRes.data);
@@ -32,32 +40,35 @@ const AdminDashboard = () => {
         setLoading({
           pickups: false,
           food: false,
-          users: false
+          users: false,
         });
       }
     };
     fetchData();
   }, []);
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
     <div className="admin-dashboard">
       <header className="dashboard-header">
-        <h1><FaUserTag /> Admin Dashboard</h1>
+        <h1>
+          <FaUserTag /> Admin Dashboard
+        </h1>
         <div className="search-box">
           <FaSearch />
 
-          {activePickups.map(pickup => (
-        <MapView
-          key={pickup.id}
-          donorLocation={pickup.donorCoords}
-          charityLocation={pickup.charityCoords}
-        />
-      ))}
+          {activePickups.map((pickup) => (
+            <MapView
+              key={pickup.id}
+              donorLocation={pickup.donorCoords}
+              charityLocation={pickup.charityCoords}
+            />
+          ))}
           <input
             type="text"
             placeholder="Search users..."
@@ -71,7 +82,9 @@ const AdminDashboard = () => {
         {/* Pickups Section */}
         <section className="dashboard-section">
           <div className="section-header">
-            <h2><FaBox /> Pickup Logs</h2>
+            <h2>
+              <FaBox /> Pickup Logs
+            </h2>
             <span className="count-badge">{pickups.length}</span>
           </div>
           {loading.pickups ? (
@@ -88,11 +101,11 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {pickups.map(p => (
+                  {pickups.map((p) => (
                     <tr key={p.id}>
                       <td>{p.id}</td>
-                      <td>{p.charity?.name || 'N/A'}</td>
-                      <td>{p.foodItem?.name || 'N/A'}</td>
+                      <td>{p.charity?.name || "N/A"}</td>
+                      <td>{p.foodItem?.name || "N/A"}</td>
                       <td>
                         <div className="time-cell">
                           <FaClock /> {p.scheduledTime}
@@ -102,7 +115,9 @@ const AdminDashboard = () => {
                   ))}
                 </tbody>
               </table>
-              {pickups.length === 0 && <div className="empty-state">No pickups recorded</div>}
+              {pickups.length === 0 && (
+                <div className="empty-state">No pickups recorded</div>
+              )}
             </div>
           )}
         </section>
@@ -110,7 +125,9 @@ const AdminDashboard = () => {
         {/* Food Section */}
         <section className="dashboard-section">
           <div className="section-header">
-            <h2><FaUtensils /> Donated Food</h2>
+            <h2>
+              <FaUtensils /> Donated Food
+            </h2>
             <span className="count-badge">{food.length}</span>
           </div>
           {loading.food ? (
@@ -127,7 +144,7 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {food.map(f => (
+                  {food.map((f) => (
                     <tr key={f.id}>
                       <td>{f.id}</td>
                       <td>{f.name}</td>
@@ -141,7 +158,9 @@ const AdminDashboard = () => {
                   ))}
                 </tbody>
               </table>
-              {food.length === 0 && <div className="empty-state">No food donations</div>}
+              {food.length === 0 && (
+                <div className="empty-state">No food donations</div>
+              )}
             </div>
           )}
         </section>
@@ -149,7 +168,9 @@ const AdminDashboard = () => {
         {/* Users Section */}
         <section className="dashboard-section">
           <div className="section-header">
-            <h2><FaUsers /> Registered Users</h2>
+            <h2>
+              <FaUsers /> Registered Users
+            </h2>
             <span className="count-badge">{users.length}</span>
           </div>
           {loading.users ? (
@@ -166,7 +187,7 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.map(u => (
+                  {filteredUsers.map((u) => (
                     <tr key={u.id}>
                       <td>{u.id}</td>
                       <td>{u.name}</td>
@@ -178,7 +199,9 @@ const AdminDashboard = () => {
                   ))}
                 </tbody>
               </table>
-              {filteredUsers.length === 0 && <div className="empty-state">No users found</div>}
+              {filteredUsers.length === 0 && (
+                <div className="empty-state">No users found</div>
+              )}
             </div>
           )}
         </section>
