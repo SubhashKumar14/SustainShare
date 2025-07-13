@@ -100,18 +100,12 @@ class StatsService {
     return updated;
   }
 
-  // Reset stats (for testing/admin purposes)
+  // Reset stats (for testing/admin purposes) - localStorage only until backend is ready
   async resetStats() {
-    try {
-      const response = await API.post("/stats/reset");
-      localStorage.removeItem("stats_people_fed");
-      localStorage.removeItem("stats_active_donors");
-      localStorage.removeItem("stats_partner_charities");
-      return response.data;
-    } catch (error) {
-      console.error("Error resetting stats:", error);
-      throw error;
-    }
+    localStorage.removeItem("stats_people_fed");
+    localStorage.removeItem("stats_active_donors");
+    localStorage.removeItem("stats_partner_charities");
+    return { success: true, message: "Stats reset successfully" };
   }
 }
 
