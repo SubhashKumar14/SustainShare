@@ -33,6 +33,11 @@ const Home = () => {
     };
 
     fetchStats();
+
+    // Refresh stats every 30 seconds to show real-time updates
+    const interval = setInterval(fetchStats, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleLearnMore = () => {
