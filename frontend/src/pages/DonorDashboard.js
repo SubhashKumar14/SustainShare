@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import API from "../services/api";
 import notificationService from "../services/notificationService";
+import { AuthContext } from "../contexts/AuthContext";
 import {
   FaUtensils,
   FaTrash,
