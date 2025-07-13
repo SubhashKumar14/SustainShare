@@ -117,11 +117,21 @@ const Signup = () => {
         navigate(`/${user.role.toLowerCase()}`);
       }, 2000);
     } catch (err) {
+      console.error("Signup error details:", {
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        headers: err.response?.headers,
+        message: err.message,
+        fullError: err,
+      });
+
       const errorMsg =
         err.response?.data?.message ||
         err.response?.data?.error ||
+        err.response?.data ||
         "Signup failed. Please try again.";
-      notificationService.error(errorMsg);
+      notificationService.error(`Signup failed: ${JSON.stringify(errorMsg)}`);
     } finally {
       setIsLoading(false);
     }
