@@ -41,18 +41,9 @@ class StatsService {
     return this.localIncrementPartnerCharities();
   }
 
-  // Record donation completion
+  // Record donation completion - localStorage only until backend is ready
   async recordDonationCompletion(donationId, estimatedPeopleServed = 5) {
-    try {
-      const response = await API.post("/stats/donation-completed", {
-        donationId,
-        estimatedPeopleServed,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error recording donation completion:", error);
-      throw error;
-    }
+    return this.localIncrementPeopleFed(estimatedPeopleServed);
   }
 
   // Get local storage fallback values
