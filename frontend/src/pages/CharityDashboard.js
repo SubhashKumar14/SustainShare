@@ -124,10 +124,6 @@ const CharityDashboard = () => {
       // Update statistics - increment people fed counter
       try {
         statsService.localIncrementPeopleFed(estimatedPeopleServed);
-        // Also try to update on server
-        statsService
-          .incrementPeopleFed(estimatedPeopleServed)
-          .catch(console.error);
       } catch (error) {
         console.error("Error updating people fed statistics:", error);
       }
