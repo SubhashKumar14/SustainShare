@@ -1,20 +1,14 @@
 import API from "./api";
 
 class StatsService {
-  // Get statistics summary
+  // Get statistics summary - currently using localStorage until backend endpoints are implemented
   async getStats() {
-    try {
-      const response = await API.get("/stats/summary");
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching stats:", error);
-      // Return fallback data if API fails
-      return {
-        peopleFed: this.getFallbackPeopleFed(),
-        activeDonors: this.getFallbackActiveDonors(),
-        partnerCharities: this.getFallbackPartnerCharities(),
-      };
-    }
+    // Use localStorage data directly since backend endpoints aren't implemented yet
+    return {
+      peopleFed: this.getFallbackPeopleFed(),
+      activeDonors: this.getFallbackActiveDonors(),
+      partnerCharities: this.getFallbackPartnerCharities(),
+    };
   }
 
   // Get people fed count
