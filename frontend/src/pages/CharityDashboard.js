@@ -23,6 +23,8 @@ const CharityDashboard = () => {
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isClaiming, setIsClaiming] = useState(false);
+  const [distanceInfo, setDistanceInfo] = useState({});
+  const [charityLocation, setCharityLocation] = useState(null);
 
   useEffect(() => {
     fetchAvailableFood();
