@@ -11,6 +11,10 @@ import API from "../services/api";
 import notificationService from "../services/notificationService";
 import statsService from "../services/statsService";
 import { AuthContext } from "../contexts/AuthContext";
+import {
+  testBackendConnection,
+  testSignupEndpoint,
+} from "../utils/backendTest";
 import "./Auth.css";
 
 const Signup = () => {
