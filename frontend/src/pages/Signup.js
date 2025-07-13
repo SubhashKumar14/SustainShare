@@ -86,7 +86,7 @@ const Signup = () => {
         phone: "", // Add if your backend requires it
       };
 
-      const res = await API.post("/auth/signup", payload);
+      await API.post("/auth/signup", payload);
 
       // Increment appropriate statistics counter
       try {
