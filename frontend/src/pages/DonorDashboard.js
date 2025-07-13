@@ -61,7 +61,9 @@ const DonorDashboard = () => {
         donor_id: formData.donorId,
       };
 
-      await API.post("/food", mappedData);
+      console.log("Food submission data:", mappedData);
+      const response = await API.post("/food", mappedData);
+      console.log("Food submission response:", response);
       notificationService.success("Food posted successfully!");
       setFormData({
         name: "",
