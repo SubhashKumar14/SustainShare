@@ -212,7 +212,7 @@ const CharityDashboard = () => {
                   <button
                     onClick={() => {
                       if (!item.id) {
-                        toast.error("Invalid donation ID");
+                        notificationService.error("Invalid donation ID");
                         return;
                       }
                       navigate(`/track/${item.id}`); // Correct navigation with ID
