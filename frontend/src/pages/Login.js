@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
 import API from "../services/api";
+import notificationService from "../services/notificationService";
 import "./Auth.css";
 
 const Login = () => {
