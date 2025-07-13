@@ -12,8 +12,6 @@ import {
   FaMapMarkerAlt,
   FaSearch,
   FaUtensils,
-  FaTruck,
-  FaRoute,
 } from "react-icons/fa";
 import "./CharityDashboard.css";
 
