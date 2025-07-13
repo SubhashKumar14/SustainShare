@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import {
   FaUser,
   FaEnvelope,
@@ -9,6 +8,7 @@ import {
   FaUserTag,
 } from "react-icons/fa";
 import API from "../services/api";
+import notificationService from "../services/notificationService";
 import "./Auth.css";
 
 const Signup = () => {
