@@ -87,10 +87,7 @@ const Signup = () => {
 
       const res = await API.post("/auth/signup", payload);
 
-      toast.success("Account created successfully!", {
-        position: "top-center",
-        autoClose: 2000,
-      });
+      notificationService.accountCreated(user.role.toLowerCase());
 
       setTimeout(() => {
         navigate(`/${user.role.toLowerCase()}`);
@@ -100,7 +97,7 @@ const Signup = () => {
         err.response?.data?.message ||
         err.response?.data?.error ||
         "Signup failed. Please try again.";
-      toast.error(errorMsg, { position: "top-center" });
+      notificationService.error(errorMsg);
     } finally {
       setIsLoading(false);
     }
