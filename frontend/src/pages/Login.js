@@ -20,14 +20,13 @@ const Login = () => {
 
     try {
       const res = await API.post("/auth/login", formData);
-      toast.success("Login successful!", {
-        position: "top-center",
-        autoClose: 2000,
-      });
+      const userData = res.data;
 
-      // Redirect with slight delay for toast to show
+      notificationService.loginSuccess(userData.name || "User");
+
+      // Redirect with slight delay for notification to show
       setTimeout(() => {
-        const { role } = res.data;
+        const { role } = userData;
         if (role === "DONOR" || role === "donor") navigate("/donor");
         else if (role === "CHARITY" || role === "charity") navigate("/charity");
         else if (role === "ADMIN" || role === "admin") navigate("/admin");
@@ -36,10 +35,7 @@ const Login = () => {
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || "Login failed. Please try again.";
-      toast.error(errorMessage, {
-        position: "top-center",
-        autoClose: 3000,
-      });
+      notificationService.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
