@@ -84,13 +84,22 @@ const CharityDashboard = () => {
 
   const claimPickup = async (foodItem) => {
     if (!currentCharity?.id) {
-      toast.error("Please log in as a charity first");
+      notificationService.error("Please log in as a charity first");
       return;
     }
 
-    const time = prompt("Enter pickup time in 24-hr format (e.g., 17:30):");
+    const distance = distanceInfo[foodItem.id];
+    const distanceText = distance
+      ? `Distance: ${distance.distance}km, Travel time: ${distance.travelTime}`
+      : "";
+
+    const time = prompt(
+      `Enter pickup time in 24-hr format (e.g., 17:30):\n${distanceText}`,
+    );
     if (!time || !/^\d{2}:\d{2}$/.test(time)) {
-      toast.error("Please enter a valid time in 24-hour format (HH:MM)");
+      notificationService.error(
+        "Please enter a valid time in 24-hour format (HH:MM)",
+      );
       return;
     }
 
