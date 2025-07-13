@@ -85,8 +85,23 @@ const DonorDashboard = () => {
       });
       fetchFoodList();
     } catch (error) {
-      console.error("Error posting food:", error.response || error.message);
-      notificationService.error("Failed to post food");
+      console.error("Food submission error details:", {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        headers: error.response?.headers,
+        message: error.message,
+        fullError: error,
+      });
+
+      const errorMsg =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.response?.data ||
+        "Failed to post food";
+      notificationService.error(
+        `Food submission failed: ${JSON.stringify(errorMsg)}`,
+      );
     } finally {
       setIsSubmitting(false);
     }
