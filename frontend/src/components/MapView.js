@@ -35,11 +35,21 @@ const charityIcon = new L.Icon({
   popupAnchor: [0, -15],
 });
 
-const MapView = ({ donorLocation, charityLocation }) => {
+const MapView = ({
+  donorLocation,
+  charityLocation,
+  donorAddress,
+  charityAddress,
+}) => {
   const [distance, setDistance] = useState(null);
   const [travelTime, setTravelTime] = useState(null);
   const [routeVisible, setRouteVisible] = useState(true);
   const [mapCenter, setMapCenter] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [actualDonorLocation, setActualDonorLocation] = useState(donorLocation);
+  const [actualCharityLocation, setActualCharityLocation] =
+    useState(charityLocation);
 
   // Calculate distance and center when locations change
   useEffect(() => {
