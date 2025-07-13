@@ -51,18 +51,63 @@ const MapView = ({
   const [actualCharityLocation, setActualCharityLocation] =
     useState(charityLocation);
 
-  // Calculate distance and center when locations change
+  // Resolve locations from addresses if coordinates not provided
   useEffect(() => {
-    if (donorLocation && charityLocation) {
-      const dist = calculateDistance(donorLocation, charityLocation);
-      setDistance(dist);
-      setTravelTime(calculateTravelTime(dist));
-      setMapCenter([
-        (donorLocation[0] + charityLocation[0]) / 2,
-        (donorLocation[1] + charityLocation[1]) / 2,
-      ]);
+    const resolveLocations = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        let resolvedDonorLocation = donorLocation;
+        let resolvedCharityLocation = charityLocation;
+
+        // If addresses are provided but coordinates aren't, resolve them
+        if (!donorLocation && donorAddress) {
+          resolvedDonorLocation =
+            await locationService.getCoordinatesFromAddress(donorAddress);
+        }
+
+        if (!charityLocation && charityAddress) {
+          resolvedCharityLocation =
+            await locationService.getCoordinatesFromAddress(charityAddress);
+        }
+
+        if (!resolvedDonorLocation || !resolvedCharityLocation) {
+          throw new Error("Could not resolve one or more locations");
+        }
+
+        setActualDonorLocation(resolvedDonorLocation);
+        setActualCharityLocation(resolvedCharityLocation);
+
+        const dist = locationService.calculateDistance(
+          resolvedDonorLocation,
+          resolvedCharityLocation,
+        );
+        setDistance(dist.toFixed(2));
+        setTravelTime(locationService.calculateTravelTime(dist));
+        setMapCenter([
+          (resolvedDonorLocation[0] + resolvedCharityLocation[0]) / 2,
+          (resolvedDonorLocation[1] + resolvedCharityLocation[1]) / 2,
+        ]);
+      } catch (error) {
+        console.error("Error resolving locations:", error);
+        setError("Unable to load map locations. Please check the addresses.");
+        notificationService.error("Map location error: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (
+      (donorLocation && charityLocation) ||
+      (donorAddress && charityAddress)
+    ) {
+      resolveLocations();
+    } else {
+      setLoading(false);
+      setError("Donor and charity locations are required");
     }
-  }, [donorLocation, charityLocation]);
+  }, [donorLocation, charityLocation, donorAddress, charityAddress]);
 
   // Calculate distance in km using Haversine formula
   const calculateDistance = (coord1, coord2) => {
