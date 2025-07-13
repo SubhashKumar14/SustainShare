@@ -115,19 +115,32 @@ const CharityDashboard = () => {
         charity: { id: currentCharity.id },
         status: "Scheduled",
       });
-      toast.success(
-        <div>
-          <FaTruck /> Pickup scheduled successfully!
-          <div style={{ fontSize: "0.9em", marginTop: "5px" }}>
-            {foodItem.name} at {time}
-          </div>
-        </div>,
-        { autoClose: 3000 },
+
+      notificationService.success(
+        `Pickup scheduled successfully! ${foodItem.name} at ${time}`,
       );
+
+      // Estimate people fed (assume each food item serves ~5 people)
+      const estimatedPeopleServed = parseInt(foodItem.quantity) || 5;
+
+      // Update statistics - increment people fed counter
+      try {
+        statsService.localIncrementPeopleFed(estimatedPeopleServed);
+        // Also try to update on server
+        statsService
+          .incrementPeopleFed(estimatedPeopleServed)
+          .catch(console.error);
+      } catch (error) {
+        console.error("Error updating people fed statistics:", error);
+      }
+
       setSelectedDonation(foodItem);
+      fetchAvailableFood(); // Refresh the list
     } catch (error) {
       console.error("Failed to schedule pickup:", error);
-      toast.error(error.response?.data?.message || "Failed to schedule pickup");
+      notificationService.error(
+        error.response?.data?.message || "Failed to schedule pickup",
+      );
     } finally {
       setIsClaiming(false);
     }
