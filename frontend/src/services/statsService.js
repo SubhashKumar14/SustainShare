@@ -11,37 +11,19 @@ class StatsService {
     };
   }
 
-  // Get people fed count
+  // Get people fed count - using localStorage until backend is implemented
   async getPeopleFedCount() {
-    try {
-      const response = await API.get("/stats/people-fed");
-      return response.data.count || 0;
-    } catch (error) {
-      console.error("Error fetching people fed count:", error);
-      return this.getFallbackPeopleFed();
-    }
+    return this.getFallbackPeopleFed();
   }
 
-  // Get active donors count
+  // Get active donors count - using localStorage until backend is implemented
   async getActiveDonorsCount() {
-    try {
-      const response = await API.get("/stats/active-donors");
-      return response.data.count || 0;
-    } catch (error) {
-      console.error("Error fetching active donors count:", error);
-      return this.getFallbackActiveDonors();
-    }
+    return this.getFallbackActiveDonors();
   }
 
-  // Get partner charities count
+  // Get partner charities count - using localStorage until backend is implemented
   async getPartnerCharitiesCount() {
-    try {
-      const response = await API.get("/stats/partner-charities");
-      return response.data.count || 0;
-    } catch (error) {
-      console.error("Error fetching partner charities count:", error);
-      return this.getFallbackPartnerCharities();
-    }
+    return this.getFallbackPartnerCharities();
   }
 
   // Increment people fed when donation is completed
