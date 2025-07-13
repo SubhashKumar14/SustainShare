@@ -24,6 +24,9 @@ const Login = () => {
       const res = await API.post("/auth/login", formData);
       const userData = res.data;
 
+      // Store user data in AuthContext
+      setCurrentUser(userData);
+
       notificationService.loginSuccess(userData.name || "User");
 
       // Redirect with slight delay for notification to show
