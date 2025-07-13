@@ -168,4 +168,5 @@ class StatsService {
   }
 }
 
-export default new StatsService();
+const statsService = new StatsService();
+export default statsService;
