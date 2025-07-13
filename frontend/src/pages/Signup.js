@@ -84,7 +84,9 @@ const Signup = () => {
         role: user.role,
       };
 
-      await API.post("/auth/signup", payload);
+      console.log("Signup payload:", payload);
+      const response = await API.post("/auth/signup", payload);
+      console.log("Signup response:", response);
 
       // Increment appropriate statistics counter
       try {
