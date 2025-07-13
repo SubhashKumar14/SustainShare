@@ -161,4 +161,5 @@ class LocationService {
   }
 }
 
-export default new LocationService();
+const locationService = new LocationService();
+export default locationService;
