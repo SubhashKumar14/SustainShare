@@ -23,15 +23,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-left">
         <Link to="/" className="brand-link">
-          <img
-            src="/logo.jpg"
-            alt="SustainShare Logo"
-            className="logo"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/logo.jpg"; // Fallback to JPG if PNG not found
-            }}
-          />
+          <img src="/logo.jpg" alt="SustainShare Logo" className="logo" />
           <span className="brand-name">SustainShare</span>
         </Link>
       </div>
