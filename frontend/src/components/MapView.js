@@ -11,7 +11,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaRoute, FaInfoCircle, FaExclamationTriangle } from "react-icons/fa";
 import locationService from "../utils/locationService";
-import notificationService from "../services/notificationService";
 import "./MapView.css";
 
 // Fix default marker icons
