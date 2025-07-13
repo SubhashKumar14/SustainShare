@@ -35,7 +35,7 @@ const DonorDashboard = () => {
       setFoodList(res.data);
     } catch (error) {
       console.error("Error fetching food list:", error);
-      toast.error("Failed to fetch food list");
+      notificationService.error("Failed to fetch food list");
     }
   };
 
