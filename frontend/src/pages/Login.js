@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
 import API from "../services/api";
 import notificationService from "../services/notificationService";
+import { AuthContext } from "../contexts/AuthContext";
 import "./Auth.css";
 
 const Login = () => {
