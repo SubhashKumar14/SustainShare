@@ -31,15 +31,9 @@ class StatsService {
     return this.localIncrementPeopleFed(amount);
   }
 
-  // Increment active donors when new donor signs up
+  // Increment active donors when new donor signs up - localStorage only until backend is ready
   async incrementActiveDonors() {
-    try {
-      const response = await API.post("/stats/active-donors/increment");
-      return response.data;
-    } catch (error) {
-      console.error("Error incrementing active donors:", error);
-      throw error;
-    }
+    return this.localIncrementActiveDonors();
   }
 
   // Increment partner charities when new charity signs up
