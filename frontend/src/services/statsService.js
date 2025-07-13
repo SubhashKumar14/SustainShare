@@ -1,5 +1,3 @@
-import API from "./api";
-
 class StatsService {
   // Get statistics summary - currently using localStorage until backend endpoints are implemented
   async getStats() {
