@@ -88,6 +88,21 @@ const Signup = () => {
 
       const res = await API.post("/auth/signup", payload);
 
+      // Increment appropriate statistics counter
+      try {
+        if (user.role === "DONOR") {
+          statsService.localIncrementActiveDonors();
+          // Also try to update on server
+          statsService.incrementActiveDonors().catch(console.error);
+        } else if (user.role === "CHARITY") {
+          statsService.localIncrementPartnerCharities();
+          // Also try to update on server
+          statsService.incrementPartnerCharities().catch(console.error);
+        }
+      } catch (error) {
+        console.error("Error updating statistics:", error);
+      }
+
       notificationService.accountCreated(user.role.toLowerCase());
 
       setTimeout(() => {
