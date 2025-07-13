@@ -78,7 +78,7 @@ const CharityDashboard = () => {
       setFoodItems(res.data);
     } catch (error) {
       console.error("Error fetching food:", error);
-      toast.error("Failed to fetch available food");
+      notificationService.error("Failed to fetch available food");
     }
   };
 
