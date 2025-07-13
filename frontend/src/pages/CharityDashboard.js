@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import API from "../services/api";
 import notificationService from "../services/notificationService";
+import statsService from "../services/statsService";
 import MapView from "../components/MapView";
 import locationService from "../utils/locationService";
 import {
