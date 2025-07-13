@@ -13,7 +13,7 @@ import "./DonorDashboard.css";
 import MapView from "../components/MapView";
 
 const DonorDashboard = () => {
-  const [claimedDonations, setClaimedDonations] = useState([]);
+  const [claimedDonations] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     quantity: "",
