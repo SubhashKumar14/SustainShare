@@ -50,6 +50,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      <BackendDebug />
       <header className="hero-section">
         <h1>Help End Hunger</h1>
         <h2>
@@ -123,7 +124,7 @@ const Home = () => {
           <p>
             🌱 Empowering donors with a mission.
             <br />
-            🤝 Helping charities reach more people.
+            ���� Helping charities reach more people.
             <br />
             📦 Real-time tracking, instant notifications, and organized
             dashboards.
