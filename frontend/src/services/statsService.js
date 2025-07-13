@@ -26,17 +26,9 @@ class StatsService {
     return this.getFallbackPartnerCharities();
   }
 
-  // Increment people fed when donation is completed
+  // Increment people fed when donation is completed - localStorage only until backend is ready
   async incrementPeopleFed(amount = 1) {
-    try {
-      const response = await API.post("/stats/people-fed/increment", {
-        amount,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error incrementing people fed:", error);
-      throw error;
-    }
+    return this.localIncrementPeopleFed(amount);
   }
 
   // Increment active donors when new donor signs up
