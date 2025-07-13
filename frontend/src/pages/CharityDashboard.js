@@ -28,7 +28,49 @@ const CharityDashboard = () => {
 
   useEffect(() => {
     fetchAvailableFood();
+    loadCharityLocation();
   }, []);
+
+  useEffect(() => {
+    if (charityLocation && foodItems.length > 0) {
+      calculateDistances();
+    }
+  }, [charityLocation, foodItems]);
+
+  const loadCharityLocation = async () => {
+    try {
+      // Try to get current location first, fallback to a default charity address
+      const coords = await locationService.getCurrentLocation();
+      setCharityLocation(coords);
+    } catch (error) {
+      // Use a default charity location if geolocation fails
+      console.log("Using default charity location");
+      setCharityLocation([40.7128, -74.006]); // NYC as default
+    }
+  };
+
+  const calculateDistances = async () => {
+    const distances = {};
+    for (const item of foodItems) {
+      if (item.pickupLocation) {
+        try {
+          const info = await locationService.getDistanceInfo(
+            item.pickupLocation,
+            "Current Location",
+          );
+          if (info) {
+            distances[item.id] = info;
+          }
+        } catch (error) {
+          console.error(
+            `Error calculating distance for item ${item.id}:`,
+            error,
+          );
+        }
+      }
+    }
+    setDistanceInfo(distances);
+  };
 
   const fetchAvailableFood = async () => {
     try {
