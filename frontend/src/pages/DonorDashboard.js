@@ -31,6 +31,15 @@ const DonorDashboard = () => {
     fetchFoodList();
   }, []);
 
+  useEffect(() => {
+    if (currentUser?.id) {
+      setFormData((prev) => ({
+        ...prev,
+        donorId: currentUser.id,
+      }));
+    }
+  }, [currentUser]);
+
   const fetchFoodList = async () => {
     try {
       const res = await API.get("/food");
