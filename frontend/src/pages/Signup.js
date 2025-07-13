@@ -90,6 +90,16 @@ const Signup = () => {
       const response = await API.post("/auth/signup", payload);
       console.log("Signup response:", response);
 
+      // Store user data in AuthContext
+      const userData = {
+        id: user.userId,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      };
+      setCurrentUser(userData);
+
       // Increment appropriate statistics counter
       try {
         if (user.role === "DONOR") {
