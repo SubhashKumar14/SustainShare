@@ -55,7 +55,7 @@ const CharityDashboard = () => {
     fetchClaimedFood();
     fetchCharityLocation();
     fetchStats();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchAvailableFood = async () => {
     try {
