@@ -76,12 +76,12 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
             <span className="input-icon">
-              <FaUser />
+              <FaEnvelope />
             </span>
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Email Address"
               required
               onChange={handleChange}
               className="auth-input"
