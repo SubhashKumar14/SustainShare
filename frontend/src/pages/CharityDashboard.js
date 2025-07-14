@@ -456,7 +456,7 @@ const CharityDashboard = () => {
                           className="claim-btn"
                           disabled={loading}
                         >
-                          <FaHandHeart />
+                          <FaHeart />
                           {loading ? "Claiming..." : "Claim Food"}
                         </button>
                         <button
