@@ -14,7 +14,7 @@ const Signup = () => {
   const [user, setUser] = useState({
     userId: "",  // Changed to match backend DTO field name
     name: "",
-    username:"",
+    ,
     email: "",
     password: "",
     role: "DONOR"
@@ -65,7 +65,7 @@ const Signup = () => {
       const payload = {
         userId: user.userId,
         name: user.name,
-        username:user.userId,
+        
         email: user.email,
         password: user.password,
         role: user.role,
@@ -135,19 +135,7 @@ const Signup = () => {
             />
           </div>
 
-          {/* Username Field */}
-<div className="input-group">
-  <span className="input-icon"><FaUser /></span>
-  <input
-    type="text"
-    name="username"
-    placeholder="Username"
-    value={user.username}
-    onChange={handleChange}
-    className="auth-input"
-    required
-  />
-</div>
+          
 
 
           {/* Email Field */}
