@@ -9,12 +9,9 @@ import {
   FaSearch,
   FaClock,
   FaMapMarkerAlt,
-  FaUserTag,
   FaTrash,
-  FaEdit,
   FaEye,
   FaDownload,
-  FaFilter,
   FaCheckCircle,
   FaExclamationTriangle,
   FaHeart,
@@ -47,7 +44,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchAllData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchAllData = async () => {
     setLoading(true);
@@ -824,7 +821,7 @@ const AdminDashboard = () => {
           <div className="map-modal">
             <div className="map-modal-content">
               <div className="map-modal-header">
-                <h3>��� Pickup Location</h3>
+                <h3>📍 Pickup Location</h3>
                 <button className="close-btn" onClick={() => setShowMap(false)}>
                   ×
                 </button>
