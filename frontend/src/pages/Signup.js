@@ -70,7 +70,7 @@ const Signup = () => {
       const payload = {
         userId: user.userId,
         name: user.name,
-
+        username: user.userId, // Using userId as username
         email: user.email,
         password: user.password,
         role: user.role,
