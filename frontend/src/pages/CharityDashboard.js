@@ -482,7 +482,7 @@ const CharityDashboard = () => {
               <h2>📋 My Claimed Donations</h2>
               {claimedItems.length === 0 ? (
                 <div className="empty-state">
-                  <FaHandHeart size={48} />
+                  <FaHeart size={48} />
                   <h3>No claimed donations yet</h3>
                   <p>Start by claiming available food donations!</p>
                   <button
