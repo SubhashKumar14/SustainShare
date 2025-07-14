@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import API from '../services/api';
-import { toast } from 'react-toastify';
-import { FaUtensils, FaTrash, FaPlus, FaSearch, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
-import './DonorDashboard.css';
-import MapView from '../components/MapView';
+import React, { useEffect, useState } from "react";
+import API from "../services/api";
+import { toast } from "react-toastify";
+import {
+  FaUtensils,
+  FaTrash,
+  FaPlus,
+  FaSearch,
+  FaMapMarkerAlt,
+  FaClock,
+} from "react-icons/fa";
+import "./DonorDashboard.css";
+import MapView from "../components/MapView";
 
 const DonorDashboard = () => {
-  const [claimedDonations, setClaimedDonations] = useState([]);
+  const [claimedDonations] = useState([]);
   const [formData, setFormData] = useState({
-    name: '',
-    quantity: '',
-    pickupLocation: '',
-    expiryTime: '',
-    donorId: ''
+    name: "",
+    quantity: "",
+    pickupLocation: "",
+    expiryTime: "",
+    donorId: "",
   });
   const [foodList, setFoodList] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -24,10 +31,10 @@ const DonorDashboard = () => {
 
   const fetchFoodList = async () => {
     try {
-      const res = await API.get('/food');
+      const res = await API.get("/food");
       setFoodList(res.data);
     } catch (error) {
-      console.error('Error fetching food list:', error);
+      console.error("Error fetching food list:", error);
       toast.error("Failed to fetch food list");
     }
   };
@@ -35,7 +42,7 @@ const DonorDashboard = () => {
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -45,23 +52,23 @@ const DonorDashboard = () => {
     console.log("Submitting:", formData); // Debugging
 
     try {
-      await API.post('/food', formData);
+      await API.post("/food", formData);
       toast.success("Food posted successfully!", {
         icon: <FaUtensils />,
-        position: "top-center"
+        position: "top-center",
       });
       setFormData({
-        name: '',
-        quantity: '',
-        pickupLocation: '',
-        expiryTime: '',
-        donorId: ''
+        name: "",
+        quantity: "",
+        pickupLocation: "",
+        expiryTime: "",
+        donorId: "",
       });
       fetchFoodList();
     } catch (error) {
-      console.error('Error posting food:', error.response || error.message);
+      console.error("Error posting food:", error.response || error.message);
       toast.error("Failed to post food", {
-        position: "top-center"
+        position: "top-center",
       });
     } finally {
       setIsSubmitting(false);
@@ -69,36 +76,40 @@ const DonorDashboard = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this food item?")) return;
+    if (!window.confirm("Are you sure you want to delete this food item?"))
+      return;
 
     try {
       await API.delete(`/food/${id}`);
       toast.success("Food item deleted!", {
         icon: <FaTrash />,
-        position: "top-center"
+        position: "top-center",
       });
       fetchFoodList();
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("Failed to delete food item", {
-        position: "top-center"
+        position: "top-center",
       });
     }
   };
 
-  const filteredFood = foodList.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.pickupLocation.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFood = foodList.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.pickupLocation.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
     <div className="donor-dashboard">
       <header className="dashboard-header">
-        <h1><FaUtensils /> Donor Dashboard</h1>
+        <h1>
+          <FaUtensils /> Donor Dashboard
+        </h1>
         <p>Manage your food donations</p>
       </header>
 
-      {claimedDonations.map(donation => (
+      {claimedDonations.map((donation) => (
         <MapView
           key={donation.id}
           donorLocation={donation.donorLocation}
@@ -163,8 +174,18 @@ const DonorDashboard = () => {
               />
             </div>
 
-            <button type="submit" className="submit-btn" disabled={isSubmitting}>
-              {isSubmitting ? 'Posting...' : <><FaPlus /> Post Food</>}
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                "Posting..."
+              ) : (
+                <>
+                  <FaPlus /> Post Food
+                </>
+              )}
             </button>
           </form>
         </section>
@@ -195,7 +216,9 @@ const DonorDashboard = () => {
                   <div className="food-info">
                     <h3>{item.name}</h3>
                     <div className="food-meta">
-                      <span className="quantity-badge">{item.quantity} units</span>
+                      <span className="quantity-badge">
+                        {item.quantity} units
+                      </span>
                       <span className="location">
                         <FaMapMarkerAlt /> {item.pickupLocation}
                       </span>
@@ -204,7 +227,10 @@ const DonorDashboard = () => {
                       </span>
                     </div>
                   </div>
-                  <button onClick={() => handleDelete(item.id)} className="delete-btn">
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="delete-btn"
+                  >
                     <FaTrash />
                   </button>
                 </div>
