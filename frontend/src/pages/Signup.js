@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaUser, FaEnvelope, FaLock, FaIdCard, FaUserTag } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaIdCard,
+  FaUserTag,
+} from "react-icons/fa";
 import API from "../services/api";
 import "./Auth.css";
 
@@ -12,27 +18,26 @@ const Signup = () => {
   const [userIdError, setUserIdError] = useState("");
 
   const [user, setUser] = useState({
-    userId: "",  // Changed to match backend DTO field name
+    userId: "", // Changed to match backend DTO field name
     name: "",
-    ,
     email: "",
     password: "",
-    role: "DONOR"
+    role: "DONOR",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser(prev => ({
+    setUser((prev) => ({
       ...prev,
-      [name]: name === "role" ? value.toUpperCase() : value
+      [name]: name === "role" ? value.toUpperCase() : value,
     }));
 
     // Real-time validation
     if (name === "password") {
       setPasswordError(
-        value.length > 0 && value.length < 6 
-          ? "Password must be at least 6 characters" 
-          : ""
+        value.length > 0 && value.length < 6
+          ? "Password must be at least 6 characters"
+          : "",
       );
     }
 
@@ -40,7 +45,7 @@ const Signup = () => {
       setUserIdError(
         value.length > 0 && !/^[a-zA-Z0-9_]+$/.test(value)
           ? "Only letters, numbers and underscores allowed"
-          : ""
+          : "",
       );
     }
   };
@@ -65,29 +70,29 @@ const Signup = () => {
       const payload = {
         userId: user.userId,
         name: user.name,
-        
+
         email: user.email,
         password: user.password,
         role: user.role,
-        address: "",  // Add if your backend requires it
-        phone: ""     // Add if your backend requires it
+        address: "", // Add if your backend requires it
+        phone: "", // Add if your backend requires it
       };
 
       const res = await API.post("/auth/signup", payload);
-      
+
       toast.success("Account created successfully!", {
         position: "top-center",
-        autoClose: 2000
+        autoClose: 2000,
       });
 
       setTimeout(() => {
         navigate(`/${user.role.toLowerCase()}-dashboard`);
       }, 2000);
-
     } catch (err) {
-      const errorMsg = err.response?.data?.message || 
-                     err.response?.data?.error || 
-                     "Signup failed. Please try again.";
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Signup failed. Please try again.";
       toast.error(errorMsg, { position: "top-center" });
     } finally {
       setIsLoading(false);
@@ -105,7 +110,9 @@ const Signup = () => {
         <form className="auth-form" onSubmit={handleSubmit}>
           {/* User ID Field */}
           <div className="input-group">
-            <span className="input-icon"><FaIdCard /></span>
+            <span className="input-icon">
+              <FaIdCard />
+            </span>
             <input
               type="text"
               name="userId"
@@ -122,7 +129,9 @@ const Signup = () => {
 
           {/* Name Field */}
           <div className="input-group">
-            <span className="input-icon"><FaUser /></span>
+            <span className="input-icon">
+              <FaUser />
+            </span>
             <input
               type="text"
               name="name"
@@ -135,12 +144,11 @@ const Signup = () => {
             />
           </div>
 
-          
-
-
           {/* Email Field */}
           <div className="input-group">
-            <span className="input-icon"><FaEnvelope /></span>
+            <span className="input-icon">
+              <FaEnvelope />
+            </span>
             <input
               type="email"
               name="email"
@@ -154,7 +162,9 @@ const Signup = () => {
 
           {/* Password Field */}
           <div className="input-group">
-            <span className="input-icon"><FaLock /></span>
+            <span className="input-icon">
+              <FaLock />
+            </span>
             <input
               type="password"
               name="password"
@@ -165,14 +175,18 @@ const Signup = () => {
               required
               minLength={6}
             />
-            {passwordError && <span className="error-text">{passwordError}</span>}
+            {passwordError && (
+              <span className="error-text">{passwordError}</span>
+            )}
           </div>
 
           {/* Role Selection */}
           <div className="input-group">
-            <span className="input-icon"><FaUserTag /></span>
-            <select 
-              name="role" 
+            <span className="input-icon">
+              <FaUserTag />
+            </span>
+            <select
+              name="role"
               value={user.role}
               onChange={handleChange}
               className="auth-select"
@@ -183,8 +197,8 @@ const Signup = () => {
             </select>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="auth-button"
             disabled={isLoading || passwordError || userIdError}
           >
@@ -193,12 +207,16 @@ const Signup = () => {
                 <span className="spinner"></span>
                 Creating Account...
               </>
-            ) : "Sign Up"}
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 
         <div className="auth-footer">
-          <p>Already have an account? <a href="/login">Log in</a></p>
+          <p>
+            Already have an account? <a href="/login">Log in</a>
+          </p>
         </div>
       </div>
     </div>
