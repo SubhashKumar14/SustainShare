@@ -354,7 +354,7 @@ const CharityDashboard = () => {
             className={`nav-btn ${activeTab === "claimed" ? "active" : ""}`}
             onClick={() => setActiveTab("claimed")}
           >
-            <FaHandHeart /> My Claims
+            <FaHeart /> My Claims
           </button>
           <button
             className={`nav-btn ${activeTab === "map" ? "active" : ""}`}
