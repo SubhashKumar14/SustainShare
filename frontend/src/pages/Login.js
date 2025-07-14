@@ -18,19 +18,34 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Basic validation
+    if (!formData.email || !formData.password) {
+      toast.error("Please fill in all fields", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        formData,
-      );
+      const res = await API.post("/auth/login", formData);
+
+      // Store user data if needed
+      if (res.data.token) {
+        localStorage.setItem("authToken", res.data.token);
+        localStorage.setItem("userRole", res.data.role);
+        localStorage.setItem("userId", res.data.userId);
+      }
+
       toast.success("Login successful!", {
         position: "top-center",
         autoClose: 2000,
       });
 
-      // Redirect with slight delay for toast to show
+      // Redirect based on role
       setTimeout(() => {
-        const { role } = res.data;
+        const role = res.data.role?.toLowerCase();
         if (role === "donor") navigate("/donor");
         else if (role === "charity") navigate("/charity");
         else if (role === "admin") navigate("/admin");
@@ -38,10 +53,12 @@ const Login = () => {
       }, 2000);
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || "Login failed. Please try again.";
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Login failed. Please check your credentials.";
       toast.error(errorMessage, {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 4000,
       });
     } finally {
       setIsLoading(false);
