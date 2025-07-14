@@ -19,11 +19,17 @@ const NetworkStatus = () => {
     // Check backend connectivity
     const checkBackendStatus = async () => {
       try {
-        await API.get("/health", { timeout: 3000 });
+        // Use existing food endpoint for health check
+        await API.get("/food", { timeout: 3000 });
         setBackendStatus("connected");
         setShowStatus(false);
       } catch (error) {
-        if (error.isNetworkError || error.isTimeout) {
+        if (
+          error.code === "ERR_NETWORK" ||
+          error.message === "Network Error" ||
+          error.code === "ECONNABORTED" ||
+          error.message.includes("timeout")
+        ) {
           setBackendStatus("disconnected");
           setShowStatus(true);
         }
