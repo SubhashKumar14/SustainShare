@@ -18,7 +18,7 @@ const FoodTracker = ({ donationId, compact = false }) => {
 
   useEffect(() => {
     fetchDonationDetails();
-  }, [donationId]);
+  }, [donationId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchDonationDetails = async () => {
     try {
