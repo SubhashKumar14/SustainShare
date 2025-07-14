@@ -189,7 +189,7 @@ const DonorDashboard = () => {
           </div>
           <div className="stats-overview">
             <div className="stat-card">
-              <FaChart className="stat-icon" />
+              <FaChartBar className="stat-icon" />
               <div className="stat-content">
                 <span className="stat-number">{stats.totalDonations}</span>
                 <span className="stat-label">Total Donations</span>
