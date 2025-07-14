@@ -7,7 +7,7 @@ import {
   FaEye,
   FaFilter,
   FaSearch,
-  FaHandHeart,
+  FaHeart,
   FaTruck,
 } from "react-icons/fa";
 import API from "../services/api";
