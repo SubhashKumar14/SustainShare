@@ -13,7 +13,7 @@ import {
   FaPhoneAlt,
   FaCheckCircle,
   FaEye,
-  FaHandHeart,
+  FaHeart,
   FaChartBar,
 } from "react-icons/fa";
 import API from "../services/api";
@@ -45,7 +45,7 @@ const CharityDashboard = () => {
   const categories = [
     { value: "ALL", label: "All Categories" },
     { value: "COOKED_FOOD", label: "🍽️ Cooked Food" },
-    { value: "FRESH_PRODUCE", label: "🥬 Fresh Produce" },
+    { value: "FRESH_PRODUCE", label: "��� Fresh Produce" },
     { value: "PACKAGED_FOOD", label: "📦 Packaged Food" },
     { value: "BAKERY", label: "🥖 Bakery Items" },
     { value: "DAIRY", label: "🥛 Dairy Products" },
