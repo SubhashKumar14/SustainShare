@@ -78,7 +78,7 @@ const Signup = () => {
         phone: "", // Add if your backend requires it
       };
 
-      const res = await API.post("/auth/signup", payload);
+      await API.post("/auth/signup", payload);
 
       toast.success("Account created successfully!", {
         position: "top-center",
