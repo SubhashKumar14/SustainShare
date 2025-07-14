@@ -21,6 +21,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
+        <NetworkStatus />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
