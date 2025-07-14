@@ -54,12 +54,20 @@ const FoodList = ({ showTracking = false, userRole = "charity" }) => {
   const fetchFoodItems = async () => {
     try {
       setLoading(true);
-      const response = await API.get("/food");
+      const response = await API.get("/food", { timeout: 5000 });
       setFoodItems(response.data || []);
     } catch (error) {
-      console.error("Error fetching food items:", error);
-      toast.error("Failed to load food items");
-      setFoodItems([]);
+      if (error.code === "ERR_NETWORK" || error.message === "Network Error") {
+        // Backend unavailable - use demo data
+        setFoodItems([]);
+        if (process.env.NODE_ENV === "development") {
+          console.warn("Backend unavailable, showing empty list");
+        }
+      } else {
+        console.error("Error fetching food items:", error);
+        toast.error("Failed to load food items");
+        setFoodItems([]);
+      }
     } finally {
       setLoading(false);
     }
