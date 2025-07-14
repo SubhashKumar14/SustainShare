@@ -33,8 +33,11 @@ const DonorDashboard = () => {
   const currentUserId = localStorage.getItem("userId") || "donor123";
 
   useEffect(() => {
-    fetchMyDonations();
-    fetchStats();
+    const loadData = () => {
+      fetchMyDonations();
+      fetchStats();
+    };
+    loadData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchMyDonations = async () => {
