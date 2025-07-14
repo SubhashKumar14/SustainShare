@@ -35,7 +35,7 @@ const DonorDashboard = () => {
   useEffect(() => {
     fetchMyDonations();
     fetchStats();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchMyDonations = async () => {
     try {
