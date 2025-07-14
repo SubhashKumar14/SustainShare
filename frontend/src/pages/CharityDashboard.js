@@ -45,7 +45,7 @@ const CharityDashboard = () => {
   const categories = [
     { value: "ALL", label: "All Categories" },
     { value: "COOKED_FOOD", label: "🍽️ Cooked Food" },
-    { value: "FRESH_PRODUCE", label: "��� Fresh Produce" },
+    { value: "FRESH_PRODUCE", label: "🥬 Fresh Produce" },
     { value: "PACKAGED_FOOD", label: "📦 Packaged Food" },
     { value: "BAKERY", label: "🥖 Bakery Items" },
     { value: "DAIRY", label: "🥛 Dairy Products" },
@@ -262,7 +262,7 @@ const CharityDashboard = () => {
   const getStatusIcon = (status) => {
     switch (status) {
       case "CLAIMED":
-        return <FaHandHeart className="status-icon claimed" />;
+        return <FaHeart className="status-icon claimed" />;
       case "IN_TRANSIT":
         return <FaTruck className="status-icon in-transit" />;
       case "DELIVERED":
