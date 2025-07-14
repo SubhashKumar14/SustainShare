@@ -22,7 +22,6 @@ import { addressToCoordinates } from "../utils/geocode";
 import "./CharityDashboard.css";
 
 const CharityDashboard = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("available");
   const [foodItems, setFoodItems] = useState([]);
   const [claimedItems, setClaimedItems] = useState([]);
