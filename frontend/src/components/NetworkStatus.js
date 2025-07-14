@@ -73,10 +73,12 @@ const NetworkStatus = () => {
   }
 
   if (showStatus && backendStatus === "disconnected") {
+    // Auto-dismiss after 4 seconds for better UX
+    setTimeout(() => setShowStatus(false), 4000);
+
     return (
       <div className="network-status backend-offline">
-        <FaExclamationTriangle />
-        <span>Backend unavailable - using demo data</span>
+        <span>Using demo data</span>
         <button
           className="dismiss-btn"
           onClick={() => setShowStatus(false)}
