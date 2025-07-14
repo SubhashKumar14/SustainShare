@@ -39,8 +39,22 @@ const NetworkStatus = () => {
     // Initial check
     checkBackendStatus();
 
-    // Periodic checks
-    const interval = setInterval(checkBackendStatus, 30000); // Check every 30 seconds
+    // Periodic checks with smarter intervals
+    let checkInterval = 30000; // Start with 30 seconds
+
+    const setupPeriodicChecks = () => {
+      return setInterval(() => {
+        checkBackendStatus();
+        // Increase interval if backend is down, reset if up
+        if (backendStatus === "disconnected") {
+          checkInterval = Math.min(checkInterval * 1.5, 120000); // Max 2 minutes
+        } else {
+          checkInterval = 30000; // Reset to 30 seconds when connected
+        }
+      }, checkInterval);
+    };
+
+    const interval = setupPeriodicChecks();
 
     return () => {
       window.removeEventListener("online", handleOnline);
