@@ -17,7 +17,7 @@ import {
 } from "react-icons/fa";
 import API from "../services/api";
 import MapView from "../components/MapView";
-import FoodList from "../components/FoodList";
+
 import { addressToCoordinates } from "../utils/geocode";
 import "./CharityDashboard.css";
 
