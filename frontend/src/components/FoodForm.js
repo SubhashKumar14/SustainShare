@@ -5,7 +5,6 @@ import {
   FaMapMarkerAlt,
   FaClock,
   FaWeight,
-  FaUser,
   FaPlus,
 } from "react-icons/fa";
 import API from "../services/api";
