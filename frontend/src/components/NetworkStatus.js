@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaWifi, FaExclamationTriangle } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 import API from "../services/api";
 import "./NetworkStatus.css";
 
