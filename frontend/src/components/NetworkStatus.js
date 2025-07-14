@@ -61,7 +61,7 @@ const NetworkStatus = () => {
       window.removeEventListener("offline", handleOffline);
       clearInterval(interval);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!isOnline) {
     return (
