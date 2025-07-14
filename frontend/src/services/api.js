@@ -28,16 +28,30 @@ API.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
+    // Handle different types of errors
+    if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
+      // Timeout error - backend might be slow or unavailable
+      error.isTimeout = true;
+    } else if (
+      error.code === "ERR_NETWORK" ||
+      error.message === "Network Error"
+    ) {
+      // Network error - backend unavailable
+      error.isNetworkError = true;
+    } else if (error.response?.status === 401) {
       // Token expired or invalid
       localStorage.removeItem("authToken");
       localStorage.removeItem("userRole");
       localStorage.removeItem("userId");
       // Redirect to login if not already there
-      if (window.location.pathname !== "/login") {
+      if (
+        window.location.pathname !== "/login" &&
+        window.location.pathname !== "/signup"
+      ) {
         window.location.href = "/login";
       }
     }
+
     return Promise.reject(error);
   },
 );
