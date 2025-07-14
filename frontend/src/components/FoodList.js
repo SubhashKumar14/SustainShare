@@ -352,7 +352,7 @@ const FoodList = ({ showTracking = false, userRole = "charity" }) => {
                             className="claim-btn"
                             onClick={() => claimFood(item)}
                           >
-                            <FaHandHeart />
+                            <FaHeart />
                             Claim Food
                           </button>
                         )}
