@@ -5,7 +5,6 @@ import {
   FaMapMarkerAlt,
   FaClock,
   FaEye,
-  FaFilter,
   FaSearch,
   FaHeart,
   FaTruck,
@@ -50,7 +49,7 @@ const FoodList = ({ showTracking = false, userRole = "charity" }) => {
 
   useEffect(() => {
     applyFilters();
-  }, [foodItems, filters]);
+  }, [foodItems, filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchFoodItems = async () => {
     try {
