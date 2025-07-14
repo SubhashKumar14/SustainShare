@@ -13,7 +13,6 @@ import {
   FaPhoneAlt,
   FaCheckCircle,
   FaEye,
-  FaHeart,
   FaChartBar,
 } from "react-icons/fa";
 import API from "../services/api";
