@@ -311,7 +311,7 @@ class MockAPI {
     }
   }
 
-  isEnabled() {
+  getIsEnabled() {
     return this.isEnabled;
   }
 
