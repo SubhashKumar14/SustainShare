@@ -73,15 +73,18 @@ const NetworkStatus = () => {
   }
 
   if (showStatus && backendStatus === "disconnected") {
-    // Auto-dismiss after 8 seconds for better UX
-    setTimeout(() => setShowStatus(false), 8000);
-
     return (
       <div className="network-status backend-offline">
-        <span>
-          ⚠️ Backend server unavailable. Please start the Spring Boot backend on
-          port 8080.
-        </span>
+        <div className="status-content">
+          <span className="status-icon">🔌</span>
+          <div className="status-text">
+            <strong>Backend Server Required</strong>
+            <p>Please start the Spring Boot backend server on port 8080</p>
+            <div className="status-instructions">
+              <code>cd backend && ./mvnw spring-boot:run</code>
+            </div>
+          </div>
+        </div>
         <button
           className="dismiss-btn"
           onClick={() => setShowStatus(false)}
