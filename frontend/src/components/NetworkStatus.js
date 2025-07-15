@@ -52,7 +52,6 @@ const NetworkStatus = () => {
           error.message.includes("timeout")
         ) {
           setBackendStatus("disconnected");
-          setUsingMockAPI(false);
           setShowStatus(true);
         }
       }
