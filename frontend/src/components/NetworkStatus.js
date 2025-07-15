@@ -97,17 +97,34 @@ const NetworkStatus = () => {
     );
   }
 
-  if (showStatus && backendStatus === "disconnected") {
+  if (
+    showStatus &&
+    (backendStatus === "disconnected" || backendStatus === "mock")
+  ) {
     return (
-      <div className="network-status backend-offline">
+      <div
+        className={`network-status ${backendStatus === "mock" ? "mock-api" : "backend-offline"}`}
+      >
         <div className="status-content">
-          <span className="status-icon">🔌</span>
+          <span className="status-icon">
+            {backendStatus === "mock" ? "🔧" : "🔌"}
+          </span>
           <div className="status-text">
-            <strong>Backend Server Required</strong>
-            <p>Please start the Spring Boot backend server on port 8080</p>
-            <div className="status-instructions">
-              <code>cd backend && ./mvnw spring-boot:run</code>
-            </div>
+            <strong>
+              {backendStatus === "mock"
+                ? "Using Mock API"
+                : "Backend Server Required"}
+            </strong>
+            <p>
+              {backendStatus === "mock"
+                ? "Development mode active with simulated data"
+                : "Please start the Spring Boot backend server on port 8080"}
+            </p>
+            {backendStatus !== "mock" && (
+              <div className="status-instructions">
+                <code>cd backend && ./mvnw spring-boot:run</code>
+              </div>
+            )}
           </div>
         </div>
         <button
