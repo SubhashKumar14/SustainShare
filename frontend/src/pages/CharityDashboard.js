@@ -65,10 +65,10 @@ const CharityDashboard = () => {
       const availableFood =
         response.data?.filter((item) => item.status === "AVAILABLE") || [];
       setFoodItems(availableFood);
-    } catch (error) {
+        } catch (error) {
       console.error("Error fetching food:", error);
-      // Demo data for available food
-      const demoFood = [
+      // No demo data - require backend connection
+      setFoodItems([]);
         {
           id: 1,
           name: "Fresh Vegetable Soup",
@@ -204,12 +204,12 @@ const CharityDashboard = () => {
           name: "Organic Vegetables",
           quantity: "100 lbs",
           category: "FRESH_PRODUCE",
-          pickupLocation: "Miyapur Vegetable Market, Hyderabad",
+                    pickupLocation: "Miyapur Vegetable Market, Hyderabad",
           status: "DELIVERED",
           claimedAt: "2024-12-23T10:00:00",
           claimedBy: currentCharityId,
-          donorLocation: [17.504, 78.3588],
-          charityLocation: [17.4126, 78.44],
+          donorLocation: [17.5040, 78.3588],
+          charityLocation: [17.4126, 78.4400],
           donorName: "Miyapur Fresh Farms",
           donorPhone: "+91-9654321087",
           charityName: "Community Kitchen",
