@@ -2,8 +2,7 @@
 class MockAPI {
   constructor() {
     this.baseURL = "http://localhost:8080/api";
-    this.isEnabled =
-      process.env.NODE_ENV === "development" && !this.isBackendAvailable();
+    this.enabled = process.env.NODE_ENV === "development";
 
     // In-memory storage
     this.storage = {
