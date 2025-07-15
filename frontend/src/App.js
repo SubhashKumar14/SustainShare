@@ -10,7 +10,6 @@ import "leaflet/dist/leaflet.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import AvailableFood from "./pages/AvailableFood";
 import FoodList from "./components/FoodList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
