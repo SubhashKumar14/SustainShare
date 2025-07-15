@@ -28,24 +28,47 @@ API.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     // Handle different types of errors
     if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
       // Timeout error - backend might be slow or unavailable
       error.isTimeout = true;
-      console.warn(
-        "Backend request timeout. Please check if the backend server is running on port 8080.",
-      );
+      console.warn("Backend request timeout. Attempting to use mock API...");
     } else if (
       error.code === "ERR_NETWORK" ||
       error.message === "Network Error" ||
       error.message.includes("ECONNREFUSED")
     ) {
-      // Network error - backend unavailable
+      // Network error - backend unavailable, try mock API
       error.isNetworkError = true;
-      console.error(
-        "Backend server unavailable. Please start the Spring Boot backend on port 8080.",
+      console.info(
+        "Backend server unavailable. Using mock API for development...",
       );
+
+      // Try to fulfill the request with mock API
+      if (process.env.NODE_ENV === "development") {
+        try {
+          const originalConfig = error.config;
+          const method = originalConfig.method.toUpperCase();
+          const url = originalConfig.url.replace(originalConfig.baseURL, "");
+          const data = originalConfig.data
+            ? JSON.parse(originalConfig.data)
+            : null;
+
+          const mockResponse = await mockAPI.request(method, url, data);
+
+          // Return a response that looks like axios response
+          return {
+            data: mockResponse,
+            status: 200,
+            statusText: "OK",
+            headers: {},
+            config: originalConfig,
+          };
+        } catch (mockError) {
+          console.error("Mock API also failed:", mockError.message);
+        }
+      }
     } else if (error.response?.status === 401) {
       // Token expired or invalid
       localStorage.removeItem("authToken");
