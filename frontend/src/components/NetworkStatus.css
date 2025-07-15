@@ -83,6 +83,14 @@
   font-weight: 600;
 }
 
+.network-status.mock-api .status-instructions code {
+  color: white;
+}
+
+.network-status.mock-api .status-text p {
+  opacity: 0.9;
+}
+
 .network-status svg {
   font-size: 16px;
 }
