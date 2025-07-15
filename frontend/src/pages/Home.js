@@ -53,18 +53,15 @@ const Home = () => {
         const totalFood = foodResponse.data?.length || 0;
         const estimatedPeopleFed = Math.max(
           totalFood * 5,
-          fallbackStats.peopleFed,
+          initialStats.peopleFed,
         );
 
         setStats({
           peopleFed: estimatedPeopleFed,
-          activeDonors: Math.max(
-            totalFood * 2 + 50,
-            fallbackStats.activeDonors,
-          ), // Dynamic calculation
+          activeDonors: Math.max(totalFood * 2 + 50, initialStats.activeDonors), // Dynamic calculation
           partnerCharities: Math.max(
             Math.floor(totalFood / 5) + 20,
-            fallbackStats.partnerCharities,
+            initialStats.partnerCharities,
           ),
         });
       } catch (error) {
