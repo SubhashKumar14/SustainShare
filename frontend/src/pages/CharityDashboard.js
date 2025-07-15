@@ -44,7 +44,7 @@ const CharityDashboard = () => {
 
   const categories = [
     { value: "ALL", label: "All Categories" },
-    { value: "COOKED_FOOD", label: "🍽️ Cooked Food" },
+    { value: "COOKED_FOOD", label: "����️ Cooked Food" },
     { value: "FRESH_PRODUCE", label: "🥬 Fresh Produce" },
     { value: "PACKAGED_FOOD", label: "📦 Packaged Food" },
     { value: "BAKERY", label: "🥖 Bakery Items" },
@@ -605,6 +605,75 @@ const CharityDashboard = () => {
                   <p>
                     Choose a food donation to see the pickup location and route
                   </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === "tracking" && (
+            <div className="tracking-tab">
+              <h2>🚚 Real-Time Order Tracking</h2>
+
+              {claimedItems.length === 0 ? (
+                <div className="empty-state">
+                  <FaTruck size={48} />
+                  <h3>No orders to track</h3>
+                  <p>
+                    Claim some food donations to start tracking their delivery!
+                  </p>
+                  <button
+                    className="primary-btn"
+                    onClick={() => setActiveTab("available")}
+                  >
+                    <FaUtensils /> Browse Available Food
+                  </button>
+                </div>
+              ) : (
+                <div className="tracking-section">
+                  {/* Order Selection */}
+                  <div className="order-selection">
+                    <h3>Select Order to Track</h3>
+                    <div className="order-list">
+                      {claimedItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className={`order-item ${selectedTrackingOrder?.id === item.id ? "selected" : ""}`}
+                          onClick={() => setSelectedTrackingOrder(item)}
+                        >
+                          <div className="order-item-info">
+                            <h4>{item.name}</h4>
+                            <p>
+                              {item.quantity} - {item.pickupLocation}
+                            </p>
+                          </div>
+                          <div
+                            className="order-status"
+                            style={{
+                              backgroundColor: getStatusColor(item.status),
+                            }}
+                          >
+                            {getStatusIcon(item.status)}
+                            {item.status}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Order Tracking Map */}
+                  <div className="tracking-map-section">
+                    <OrderTrackingMap
+                      order={selectedTrackingOrder}
+                      onStatusUpdate={(newStatus) => {
+                        if (selectedTrackingOrder) {
+                          updateClaimStatus(
+                            selectedTrackingOrder.id,
+                            newStatus,
+                          );
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               )}
             </div>
