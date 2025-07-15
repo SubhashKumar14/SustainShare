@@ -13,6 +13,8 @@ const BackendStatus = () => {
         await API.get("/food", { timeout: 3000 });
         setStatus("connected");
       } catch (error) {
+        // Log error for debugging but handle gracefully
+        console.log("Backend status check failed:", error.message);
         setStatus("disconnected");
       }
       setLastChecked(new Date());
