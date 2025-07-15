@@ -42,6 +42,27 @@ const Home = () => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
+        try {
+          // Try to get stats from dedicated endpoint first
+          const statsResponse = await API.get("/stats", {
+            signal: controller.signal,
+            timeout: 5000,
+          });
+
+          clearTimeout(timeoutId);
+
+          if (statsResponse.data) {
+            setStats(statsResponse.data);
+            return;
+          }
+        } catch (statsError) {
+          // If stats endpoint fails, fall back to food endpoint
+          console.info(
+            "Stats endpoint unavailable, using food data for calculations",
+          );
+        }
+
+        // Fallback: use food endpoint to calculate stats
         const foodResponse = await API.get("/food", {
           signal: controller.signal,
           timeout: 5000,
@@ -49,7 +70,7 @@ const Home = () => {
 
         clearTimeout(timeoutId);
 
-        // Calculate real stats if API call succeeds
+        // Calculate stats from food data
         const totalFood = foodResponse.data?.length || 0;
         const estimatedPeopleFed = Math.max(
           totalFood * 5,
@@ -58,7 +79,7 @@ const Home = () => {
 
         setStats({
           peopleFed: estimatedPeopleFed,
-          activeDonors: Math.max(totalFood * 2 + 50, initialStats.activeDonors), // Dynamic calculation
+          activeDonors: Math.max(totalFood * 2 + 50, initialStats.activeDonors),
           partnerCharities: Math.max(
             Math.floor(totalFood / 5) + 20,
             initialStats.partnerCharities,
