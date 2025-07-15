@@ -200,10 +200,10 @@ class MockAPI {
         path.includes("/role") &&
         method === "PUT":
         const userId = parseInt(path.split("/")[2]);
-        const user = this.storage.users.find((u) => u.id === userId);
-        if (user) {
-          user.role = data.role;
-          return user;
+        const userToUpdate = this.storage.users.find((u) => u.id === userId);
+        if (userToUpdate) {
+          userToUpdate.role = data.role;
+          return userToUpdate;
         }
         throw new Error("User not found");
 
