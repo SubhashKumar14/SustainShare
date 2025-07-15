@@ -32,12 +32,19 @@ API.interceptors.response.use(
     if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
       // Timeout error - backend might be slow or unavailable
       error.isTimeout = true;
+      console.warn(
+        "Backend request timeout. Please check if the backend server is running on port 8080.",
+      );
     } else if (
       error.code === "ERR_NETWORK" ||
-      error.message === "Network Error"
+      error.message === "Network Error" ||
+      error.message.includes("ECONNREFUSED")
     ) {
       // Network error - backend unavailable
       error.isNetworkError = true;
+      console.error(
+        "Backend server unavailable. Please start the Spring Boot backend on port 8080.",
+      );
     } else if (error.response?.status === 401) {
       // Token expired or invalid
       localStorage.removeItem("authToken");
