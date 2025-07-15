@@ -31,9 +31,6 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedTimeRange, setSelectedTimeRange] = useState("7days");
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     fetchAllData();
