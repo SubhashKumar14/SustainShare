@@ -135,7 +135,7 @@ const OrderTrackingMap = ({ order, onStatusUpdate, isAdmin = false }) => {
           coordinates: donorCoords,
           address: order.pickupLocation || "Donor Location",
           name: order.donorName || "Food Donor",
-          phone: order.donorPhone || "+1-XXX-XXX-XXXX",
+          phone: order.donorPhone || "+91-XXXXX-XXXXX",
         },
         charity: {
           coordinates: charityCoords,
