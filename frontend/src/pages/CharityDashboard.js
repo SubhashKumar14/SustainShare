@@ -65,91 +65,10 @@ const CharityDashboard = () => {
       const availableFood =
         response.data?.filter((item) => item.status === "AVAILABLE") || [];
       setFoodItems(availableFood);
-        } catch (error) {
+    } catch (error) {
       console.error("Error fetching food:", error);
       // No demo data - require backend connection
       setFoodItems([]);
-        {
-          id: 1,
-          name: "Fresh Vegetable Soup",
-          quantity: "50 servings",
-          category: "COOKED_FOOD",
-          pickupLocation: "Uppal Main Road, Hyderabad",
-          expiryTime: "2024-12-25T18:00:00",
-          description: "Fresh homemade vegetable soup, perfect for winter",
-          donorId: "donor123",
-          status: "AVAILABLE",
-          allergens: "None",
-          coordinates: [17.4065, 78.5562],
-        },
-        {
-          id: 2,
-          name: "Fresh Organic Apples",
-          quantity: "200 pieces",
-          category: "FRESH_PRODUCE",
-          pickupLocation: "Nagole Metro Station Area, Hyderabad",
-          expiryTime: "2024-12-26T12:00:00",
-          description: "Organic apples from local farm",
-          donorId: "donor456",
-          status: "AVAILABLE",
-          allergens: "None",
-          coordinates: [17.3616, 78.5747],
-        },
-        {
-          id: 3,
-          name: "Packaged Pasta & Sauce",
-          quantity: "100 boxes",
-          category: "PACKAGED_FOOD",
-          pickupLocation: "Ameerpet Metro Station, Hyderabad",
-          expiryTime: "2024-12-30T20:00:00",
-          description: "Unopened pasta boxes with tomato sauce",
-          donorId: "donor789",
-          status: "AVAILABLE",
-          allergens: "Contains gluten",
-          coordinates: [17.4374, 78.4482],
-        },
-        {
-          id: 4,
-          name: "Fresh Biryani & Raita",
-          quantity: "80 servings",
-          category: "COOKED_FOOD",
-          pickupLocation: "Jubilee Bus Station (JBS), Secunderabad",
-          expiryTime: "2024-12-25T19:00:00",
-          description: "Authentic Hyderabadi biryani with raita and shorba",
-          donorId: "donor890",
-          status: "AVAILABLE",
-          allergens: "Contains dairy",
-          coordinates: [17.4399, 78.4983],
-        },
-        {
-          id: 5,
-          name: "Fresh Fruits & Vegetables",
-          quantity: "150 pieces",
-          category: "FRESH_PRODUCE",
-          pickupLocation: "LB Nagar Market, Hyderabad",
-          expiryTime: "2024-12-27T15:00:00",
-          description:
-            "Fresh seasonal fruits and vegetables from local vendors",
-          donorId: "donor234",
-          status: "AVAILABLE",
-          allergens: "None",
-          coordinates: [17.3528, 78.552],
-        },
-        {
-          id: 6,
-          name: "Bakery Items & Sweets",
-          quantity: "60 pieces",
-          category: "BAKERY",
-          pickupLocation: "Koti Sultan Bazaar, Hyderabad",
-          expiryTime: "2024-12-26T18:00:00",
-          description: "Fresh bakery items and traditional sweets",
-          donorId: "donor567",
-          status: "AVAILABLE",
-          allergens: "Contains gluten, nuts",
-          coordinates: [17.3753, 78.4744],
-        },
-      ];
-      setFoodItems(demoFood);
     } finally {
       setLoading(false);
     }
@@ -204,12 +123,12 @@ const CharityDashboard = () => {
           name: "Organic Vegetables",
           quantity: "100 lbs",
           category: "FRESH_PRODUCE",
-                    pickupLocation: "Miyapur Vegetable Market, Hyderabad",
+          pickupLocation: "Miyapur Vegetable Market, Hyderabad",
           status: "DELIVERED",
           claimedAt: "2024-12-23T10:00:00",
           claimedBy: currentCharityId,
-          donorLocation: [17.5040, 78.3588],
-          charityLocation: [17.4126, 78.4400],
+          donorLocation: [17.504, 78.3588],
+          charityLocation: [17.4126, 78.44],
           donorName: "Miyapur Fresh Farms",
           donorPhone: "+91-9654321087",
           charityName: "Community Kitchen",
@@ -568,7 +487,7 @@ const CharityDashboard = () => {
 
           {activeTab === "claimed" && (
             <div className="claimed-tab">
-              <h2>📋 My Claimed Donations</h2>
+              <h2>��� My Claimed Donations</h2>
               {claimedItems.length === 0 ? (
                 <div className="empty-state">
                   <FaHeart size={48} />
