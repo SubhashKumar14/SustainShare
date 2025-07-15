@@ -12,7 +12,7 @@ import Login from "./pages/Login";
 import AvailableFood from "./pages/AvailableFood";
 import FoodList from "./components/FoodList";
 import NetworkStatus from "./components/NetworkStatus";
-import BackendStatus from "./components/BackendStatus";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "leaflet/dist/leaflet.css";
@@ -46,7 +46,6 @@ function App() {
           pauseOnHover
           theme="colored"
         />
-        <BackendStatus />
       </Router>
     </AuthProvider>
   );
