@@ -640,10 +640,10 @@ const CharityDashboard = () => {
                               ...item,
                               status: "AVAILABLE",
                               donorLocation: item.coordinates || [
-                                40.7128, -74.006,
+                                17.4065, 78.4772,
                               ],
                               charityLocation: charityLocation || [
-                                40.7831, -73.9712,
+                                17.4126, 78.44,
                               ],
                               donorName: "Food Donor",
                               donorPhone: "+1-555-123-4567",
