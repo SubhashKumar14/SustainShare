@@ -324,4 +324,5 @@ class MockAPI {
   }
 }
 
-export default new MockAPI();
+const mockAPIInstance = new MockAPI();
+export default mockAPIInstance;
