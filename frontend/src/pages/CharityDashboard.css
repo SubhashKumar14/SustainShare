@@ -540,6 +540,11 @@
   color: white;
 }
 
+.action-btn.track {
+  background: linear-gradient(135deg, #fd7e14 0%, #e55a4e 100%);
+  color: white;
+}
+
 .action-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
