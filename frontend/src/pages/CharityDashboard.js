@@ -16,7 +16,7 @@ import {
   FaChartBar,
 } from "react-icons/fa";
 import API from "../services/api";
-import MapView from "../components/MapView";
+
 import OrderTrackingMap from "../components/OrderTrackingMap";
 
 import { addressToCoordinates } from "../utils/geocode";
@@ -30,7 +30,7 @@ const CharityDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("ALL");
   const [loading, setLoading] = useState(false);
-  const [showMap, setShowMap] = useState(false);
+
   const [charityLocation, setCharityLocation] = useState(null);
   const [selectedTrackingOrder, setSelectedTrackingOrder] = useState(null);
   const [stats, setStats] = useState({
@@ -235,9 +235,19 @@ const CharityDashboard = () => {
         { ...foodItem, status: "CLAIMED", claimedBy: currentCharityId },
       ]);
 
-      // Set for map view
-      setSelectedDonation(foodItem);
-      setShowMap(true);
+      // Set for map tracking view
+      setSelectedTrackingOrder({
+        ...foodItem,
+        status: "CLAIMED",
+        claimedBy: currentCharityId,
+        donorLocation: foodItem.coordinates || [40.7128, -74.006],
+        charityLocation: charityLocation || [40.7831, -73.9712],
+        donorName: "Food Donor",
+        donorPhone: "+1-555-123-4567",
+        charityName: "Community Kitchen",
+        charityPhone: "+1-555-987-6543",
+        charityAddress: charityAddress,
+      });
 
       fetchStats();
     } catch (error) {
@@ -397,16 +407,10 @@ const CharityDashboard = () => {
             <FaHeart /> My Claims
           </button>
           <button
-            className={`nav-btn ${activeTab === "map" ? "active" : ""}`}
-            onClick={() => setActiveTab("map")}
-          >
-            <FaMapMarkerAlt /> Map View
-          </button>
-          <button
             className={`nav-btn ${activeTab === "tracking" ? "active" : ""}`}
             onClick={() => setActiveTab("tracking")}
           >
-            <FaTruck /> Order Tracking
+            <FaTruck /> Map Tracking
           </button>
         </nav>
 
@@ -507,13 +511,13 @@ const CharityDashboard = () => {
                         </button>
                         <button
                           onClick={() => {
-                            setSelectedDonation(item);
-                            setShowMap(true);
+                            setSelectedTrackingOrder(item);
+                            setActiveTab("tracking");
                           }}
                           className="view-location-btn"
                         >
                           <FaMapMarkerAlt />
-                          View Location
+                          View on Map
                         </button>
                       </div>
                     </div>
@@ -612,63 +616,60 @@ const CharityDashboard = () => {
             </div>
           )}
 
-          {activeTab === "map" && (
-            <div className="map-tab">
-              <h2>🗺️ Food Donation Map</h2>
-              <div className="map-controls">
-                <button
-                  className={`map-control-btn ${showMap ? "active" : ""}`}
-                  onClick={() => setShowMap(!showMap)}
-                >
-                  <FaRoute />
-                  {showMap ? "Hide Map" : "Show Map"}
-                </button>
-                {selectedDonation && (
-                  <div className="selected-donation-info">
-                    <span>📍 Viewing: {selectedDonation.name}</span>
-                    <button
-                      className="clear-selection-btn"
-                      onClick={() => setSelectedDonation(null)}
-                    >
-                      Clear
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {showMap && selectedDonation && charityLocation && (
-                <div className="map-container">
-                  <MapView
-                    donorLocation={
-                      selectedDonation.coordinates || [40.7128, -74.006]
-                    }
-                    charityLocation={charityLocation}
-                  />
-                </div>
-              )}
-
-              {!selectedDonation && (
-                <div className="map-placeholder">
-                  <FaMapMarkerAlt size={48} />
-                  <h3>Select a donation to view on map</h3>
-                  <p>
-                    Choose a food donation to see the pickup location and route
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
           {activeTab === "tracking" && (
             <div className="tracking-tab">
-              <h2>🚚 Real-Time Order Tracking</h2>
+              <h2>🗺️ Map-Based Order Tracking</h2>
+              <p className="tracking-description">
+                Select a food donation to track its pickup and delivery in
+                real-time using our interactive map
+              </p>
 
-              {claimedItems.length === 0 ? (
+              {/* Available Food for Tracking */}
+              {filteredFood.length > 0 && (
+                <div className="available-for-tracking">
+                  <h3>📍 Available Donations (Click to Track Location)</h3>
+                  <div className="tracking-food-grid">
+                    {filteredFood.slice(0, 3).map((item) => (
+                      <div key={item.id} className="tracking-food-card">
+                        <h4>{item.name}</h4>
+                        <p>📍 {item.pickupLocation}</p>
+                        <p>🍽️ {item.quantity}</p>
+                        <button
+                          className="track-location-btn"
+                          onClick={() => {
+                            setSelectedTrackingOrder({
+                              ...item,
+                              status: "AVAILABLE",
+                              donorLocation: item.coordinates || [
+                                40.7128, -74.006,
+                              ],
+                              charityLocation: charityLocation || [
+                                40.7831, -73.9712,
+                              ],
+                              donorName: "Food Donor",
+                              donorPhone: "+1-555-123-4567",
+                              charityName: "Community Kitchen",
+                              charityPhone: "+1-555-987-6543",
+                              charityAddress: charityAddress,
+                            });
+                          }}
+                        >
+                          <FaMapMarkerAlt /> Track on Map
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Claimed Orders Tracking */}
+              {claimedItems.length === 0 && filteredFood.length === 0 ? (
                 <div className="empty-state">
                   <FaTruck size={48} />
-                  <h3>No orders to track</h3>
+                  <h3>No donations to track</h3>
                   <p>
-                    Claim some food donations to start tracking their delivery!
+                    Claim some food donations to start tracking their delivery
+                    on the map!
                   </p>
                   <button
                     className="primary-btn"
@@ -679,37 +680,39 @@ const CharityDashboard = () => {
                 </div>
               ) : (
                 <div className="tracking-section">
-                  {/* Order Selection */}
-                  <div className="order-selection">
-                    <h3>Select Order to Track</h3>
-                    <div className="order-list">
-                      {claimedItems.map((item) => (
-                        <div
-                          key={item.id}
-                          className={`order-item ${selectedTrackingOrder?.id === item.id ? "selected" : ""}`}
-                          onClick={() => setSelectedTrackingOrder(item)}
-                        >
-                          <div className="order-item-info">
-                            <h4>{item.name}</h4>
-                            <p>
-                              {item.quantity} - {item.pickupLocation}
-                            </p>
-                          </div>
+                  {/* Claimed Orders */}
+                  {claimedItems.length > 0 && (
+                    <div className="claimed-orders-tracking">
+                      <h3>🚚 My Claimed Orders (Live Tracking)</h3>
+                      <div className="order-list">
+                        {claimedItems.map((item) => (
                           <div
-                            className="order-status"
-                            style={{
-                              backgroundColor: getStatusColor(item.status),
-                            }}
+                            key={item.id}
+                            className={`order-item ${selectedTrackingOrder?.id === item.id ? "selected" : ""}`}
+                            onClick={() => setSelectedTrackingOrder(item)}
                           >
-                            {getStatusIcon(item.status)}
-                            {item.status}
+                            <div className="order-item-info">
+                              <h4>{item.name}</h4>
+                              <p>
+                                {item.quantity} - {item.pickupLocation}
+                              </p>
+                            </div>
+                            <div
+                              className="order-status"
+                              style={{
+                                backgroundColor: getStatusColor(item.status),
+                              }}
+                            >
+                              {getStatusIcon(item.status)}
+                              {item.status}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Order Tracking Map */}
+                  {/* Interactive Order Tracking Map */}
                   <div className="tracking-map-section">
                     <OrderTrackingMap
                       order={selectedTrackingOrder}
