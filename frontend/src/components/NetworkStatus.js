@@ -30,10 +30,15 @@ const NetworkStatus = () => {
         ) {
           // Try direct fetch to verify real backend
           try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2000);
+
             await fetch("http://localhost:8080/api/health", {
               method: "GET",
-              timeout: 2000,
+              signal: controller.signal,
             });
+
+            clearTimeout(timeoutId);
             setBackendStatus("connected");
             setShowStatus(false);
           } catch (fetchError) {
