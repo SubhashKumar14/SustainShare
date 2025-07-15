@@ -50,30 +50,8 @@ const DonorDashboard = () => {
       setMyDonations(myFood);
     } catch (error) {
       console.error("Error fetching donations:", error);
-      // Use demo data when backend is unavailable
-      const demoData = [
-        {
-          id: 1,
-          name: "Fresh Vegetables",
-          quantity: "50 servings",
-          status: "AVAILABLE",
-          pickupLocation: "Banjara Hills Road No 12, Hyderabad",
-          expiryTime: "2024-12-25T18:00:00",
-          donorId: currentUserId,
-          createdAt: "2024-12-24T10:00:00",
-        },
-        {
-          id: 2,
-          name: "Cooked Rice",
-          quantity: "100 servings",
-          status: "CLAIMED",
-          pickupLocation: "Hitech City Main Road, Madhapur",
-          expiryTime: "2024-12-24T20:00:00",
-          donorId: currentUserId,
-          createdAt: "2024-12-24T08:00:00",
-        },
-      ];
-      setMyDonations(demoData);
+      // No demo data - require backend connection
+      setMyDonations([]);
     } finally {
       setLoading(false);
     }
@@ -248,7 +226,7 @@ const DonorDashboard = () => {
 
           {activeTab === "manage" && (
             <div className="manage-tab">
-              <h2>📋 My Food Donations</h2>
+              <h2>�� My Food Donations</h2>
               {loading ? (
                 <div className="loading-spinner">
                   <div className="spinner"></div>
