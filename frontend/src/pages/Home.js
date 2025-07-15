@@ -72,8 +72,8 @@ const Home = () => {
         if (error.name !== "AbortError") {
           // Only log non-timeout errors in development
           if (process.env.NODE_ENV === "development") {
-            console.warn(
-              "Backend unavailable, using fallback stats:",
+            console.info(
+              "Backend unavailable, using demo stats:",
               error.message,
             );
           }
