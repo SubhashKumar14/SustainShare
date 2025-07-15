@@ -30,11 +30,11 @@ const Home = () => {
   // Fetch stats from backend with robust error handling
   useEffect(() => {
     const fetchStats = async () => {
-      // Set initial fallback stats immediately
-      const fallbackStats = {
-        peopleFed: 1250,
-        activeDonors: 180,
-        partnerCharities: 28,
+      // Initialize with zero stats - require backend connection
+      const initialStats = {
+        peopleFed: 0,
+        activeDonors: 0,
+        partnerCharities: 0,
       };
 
       try {
