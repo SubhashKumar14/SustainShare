@@ -311,11 +311,11 @@ class MockAPI {
   }
 
   getIsEnabled() {
-    return this.isEnabled;
+    return this.enabled;
   }
 
   async request(method, endpoint, data = null) {
-    if (this.isEnabled) {
+    if (this.enabled) {
       console.info(`🔧 Mock API: ${method} ${endpoint}`, data ? data : "");
       return this.mockRequest(method, endpoint, data);
     }
