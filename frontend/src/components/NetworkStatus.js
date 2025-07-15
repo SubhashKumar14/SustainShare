@@ -35,16 +35,13 @@ const NetworkStatus = () => {
               timeout: 2000,
             });
             setBackendStatus("connected");
-            setUsingMockAPI(false);
             setShowStatus(false);
           } catch (fetchError) {
             setBackendStatus("mock");
-            setUsingMockAPI(true);
             setShowStatus(true);
           }
         } else {
           setBackendStatus("connected");
-          setUsingMockAPI(false);
           setShowStatus(false);
         }
       } catch (error) {
