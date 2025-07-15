@@ -594,6 +594,15 @@ const CharityDashboard = () => {
                           >
                             <FaPhoneAlt /> Contact Donor
                           </button>
+                          <button
+                            className="action-btn track"
+                            onClick={() => {
+                              setSelectedTrackingOrder(item);
+                              setActiveTab("tracking");
+                            }}
+                          >
+                            <FaTruck /> Track Order
+                          </button>
                         </div>
                       </div>
                     </div>
