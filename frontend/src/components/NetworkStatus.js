@@ -21,9 +21,32 @@ const NetworkStatus = () => {
     const checkBackendStatus = async () => {
       try {
         // Use existing food endpoint for health check
-        await API.get("/food", { timeout: 3000 });
-        setBackendStatus("connected");
-        setShowStatus(false);
+        const response = await API.get("/food", { timeout: 3000 });
+
+        // Check if response came from mock API
+        if (
+          response.config?.mockAPI ||
+          process.env.NODE_ENV === "development"
+        ) {
+          // Try direct fetch to verify real backend
+          try {
+            await fetch("http://localhost:8080/api/health", {
+              method: "GET",
+              timeout: 2000,
+            });
+            setBackendStatus("connected");
+            setUsingMockAPI(false);
+            setShowStatus(false);
+          } catch (fetchError) {
+            setBackendStatus("mock");
+            setUsingMockAPI(true);
+            setShowStatus(true);
+          }
+        } else {
+          setBackendStatus("connected");
+          setUsingMockAPI(false);
+          setShowStatus(false);
+        }
       } catch (error) {
         if (
           error.code === "ERR_NETWORK" ||
@@ -32,6 +55,7 @@ const NetworkStatus = () => {
           error.message.includes("timeout")
         ) {
           setBackendStatus("disconnected");
+          setUsingMockAPI(false);
           setShowStatus(true);
         }
       }
