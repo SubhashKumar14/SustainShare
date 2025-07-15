@@ -150,15 +150,15 @@ class MockAPI {
       // Auth endpoints
       case path === "/auth/login" && method === "POST":
         const { email } = data;
-        const user = this.storage.users.find((u) => u.email === email);
-        if (user) {
+        const foundUser = this.storage.users.find((u) => u.email === email);
+        if (foundUser) {
           return {
             token: "mock-jwt-token-" + Date.now(),
             user: {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
+              id: foundUser.id,
+              name: foundUser.name,
+              email: foundUser.email,
+              role: foundUser.role,
             },
           };
         }
