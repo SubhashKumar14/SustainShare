@@ -79,8 +79,8 @@ const Home = () => {
           }
         }
 
-        // Set fallback stats
-        setStats(fallbackStats);
+        // Set initial stats (zeros) when backend unavailable
+        setStats(initialStats);
       }
     };
 
