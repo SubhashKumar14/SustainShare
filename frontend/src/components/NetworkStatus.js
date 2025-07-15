@@ -6,7 +6,7 @@ import "./NetworkStatus.css";
 const NetworkStatus = () => {
   const [isOnline, setIsOnline] = useState(true);
   const [backendStatus, setBackendStatus] = useState("checking");
-  const [usingMockAPI, setUsingMockAPI] = useState(false);
+
   const [showStatus, setShowStatus] = useState(false);
 
   useEffect(() => {
