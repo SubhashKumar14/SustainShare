@@ -91,9 +91,9 @@ const CharityDashboard = () => {
   const fetchCharityLocation = async () => {
     try {
       const coordinates = await addressToCoordinates(charityAddress);
-      setCharityLocation(coordinates || [40.7831, -73.9712]); // Default NYC coordinates
+      setCharityLocation(coordinates || [17.4126, 78.44]); // Default Jubilee Hills, Hyderabad coordinates
     } catch (error) {
-      setCharityLocation([40.7831, -73.9712]); // Default coordinates
+      setCharityLocation([17.4126, 78.44]); // Default Jubilee Hills, Hyderabad coordinates
     }
   };
 
