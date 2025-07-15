@@ -82,61 +82,9 @@ const CharityDashboard = () => {
         [];
       setClaimedItems(claimedFood);
     } catch (error) {
-      // Demo claimed food data with tracking information
-      const demoClaimed = [
-        {
-          id: 4,
-          name: "Cooked Rice & Curry",
-          quantity: "75 servings",
-          category: "COOKED_FOOD",
-          pickupLocation: "Dilsukhnagar Main Road, Hyderabad",
-          status: "IN_TRANSIT",
-          claimedAt: "2024-12-24T14:00:00",
-          claimedBy: currentCharityId,
-          donorLocation: [17.3687, 78.5318],
-          charityLocation: [17.4126, 78.44],
-          donorName: "Dilsukhnagar Tiffin Center",
-          donorPhone: "+91-9876543210",
-          charityName: "Community Kitchen",
-          charityPhone: "+91-8765432109",
-          charityAddress: "Community Kitchen, Jubilee Hills, Hyderabad",
-        },
-        {
-          id: 5,
-          name: "Fresh Bakery Items",
-          quantity: "40 pieces",
-          category: "BAKERY",
-          pickupLocation: "Charminar Old City, Hyderabad",
-          status: "CLAIMED",
-          claimedAt: "2024-12-24T16:00:00",
-          claimedBy: currentCharityId,
-          donorLocation: [17.3616, 78.4747],
-          charityLocation: [17.4126, 78.44],
-          donorName: "Charminar Bakery House",
-          donorPhone: "+91-9765432108",
-          charityName: "Community Kitchen",
-          charityPhone: "+91-8765432109",
-          charityAddress: "Community Kitchen, Jubilee Hills, Hyderabad",
-        },
-        {
-          id: 6,
-          name: "Organic Vegetables",
-          quantity: "100 lbs",
-          category: "FRESH_PRODUCE",
-          pickupLocation: "Miyapur Vegetable Market, Hyderabad",
-          status: "DELIVERED",
-          claimedAt: "2024-12-23T10:00:00",
-          claimedBy: currentCharityId,
-          donorLocation: [17.504, 78.3588],
-          charityLocation: [17.4126, 78.44],
-          donorName: "Miyapur Fresh Farms",
-          donorPhone: "+91-9654321087",
-          charityName: "Community Kitchen",
-          charityPhone: "+91-8765432109",
-          charityAddress: "Community Kitchen, Jubilee Hills, Hyderabad",
-        },
-      ];
-      setClaimedItems(demoClaimed);
+      console.error("Error fetching claimed food:", error);
+      // No demo data - require backend connection
+      setClaimedItems([]);
     }
   };
 
