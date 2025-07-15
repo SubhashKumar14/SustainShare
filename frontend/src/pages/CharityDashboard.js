@@ -646,9 +646,9 @@ const CharityDashboard = () => {
                                 17.4126, 78.44,
                               ],
                               donorName: "Food Donor",
-                              donorPhone: "+1-555-123-4567",
+                              donorPhone: "+91-9876543210",
                               charityName: "Community Kitchen",
-                              charityPhone: "+1-555-987-6543",
+                              charityPhone: "+91-8765432109",
                               charityAddress: charityAddress,
                             });
                           }}
