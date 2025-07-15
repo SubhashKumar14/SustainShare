@@ -37,7 +37,7 @@ const MapView = ({ donorLocation, charityLocation }) => {
   const [distance, setDistance] = useState(null);
   const [travelTime, setTravelTime] = useState(null);
   const [routeVisible, setRouteVisible] = useState(true);
-  const [mapCenter, setMapCenter] = useState(null);
+  const [mapCenter, setMapCenter] = useState([17.4065, 78.4772]); // Default to Banjara Hills, Hyderabad
 
   // Calculate distance and center when locations change
   useEffect(() => {
