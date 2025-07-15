@@ -127,8 +127,8 @@ const OrderTrackingMap = ({ order, onStatusUpdate, isAdmin = false }) => {
 
     try {
       // Set donor and charity locations
-      const donorCoords = order.donorLocation || [40.7128, -74.006]; // NYC default
-      const charityCoords = order.charityLocation || [40.7589, -73.9851]; // NYC default
+      const donorCoords = order.donorLocation || [17.4065, 78.4772]; // Banjara Hills, Hyderabad default
+      const charityCoords = order.charityLocation || [17.4126, 78.44]; // Jubilee Hills, Hyderabad default
 
       const newTrackingData = {
         donor: {
@@ -361,7 +361,7 @@ const OrderTrackingMap = ({ order, onStatusUpdate, isAdmin = false }) => {
         )}
 
         <MapContainer
-          center={trackingData.donor?.coordinates || [40.7128, -74.006]}
+          center={trackingData.donor?.coordinates || [17.4065, 78.4772]}
           zoom={13}
           className="tracking-map"
           scrollWheelZoom={true}
