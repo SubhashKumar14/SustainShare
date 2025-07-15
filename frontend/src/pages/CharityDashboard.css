@@ -882,9 +882,11 @@
     align-items: stretch;
   }
 
-  .tracking-section {
+  .tracking-food-grid {
     grid-template-columns: 1fr;
-    height: auto;
+  }
+
+  .tracking-section {
     gap: 16px;
   }
 
