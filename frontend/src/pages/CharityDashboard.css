@@ -651,11 +651,99 @@
 }
 
 /* Order Tracking Tab */
-.tracking-section {
+.tracking-description {
+  color: #6c757d;
+  font-size: 16px;
+  margin-bottom: 30px;
+  text-align: center;
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.available-for-tracking {
+  margin-bottom: 30px;
+}
+
+.available-for-tracking h3 {
+  color: #2c3e50;
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.tracking-food-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tracking-food-card {
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.tracking-food-card:hover {
+  border-color: #ff6b6b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.15);
+}
+
+.tracking-food-card h4 {
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.tracking-food-card p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.track-location-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.track-location-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.3);
+}
+
+.claimed-orders-tracking {
+  margin-bottom: 30px;
+}
+
+.claimed-orders-tracking h3 {
+  color: #2c3e50;
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.tracking-section {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
-  height: 600px;
 }
 
 .order-selection {
