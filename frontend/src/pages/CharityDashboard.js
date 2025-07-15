@@ -17,6 +17,7 @@ import {
 } from "react-icons/fa";
 import API from "../services/api";
 import MapView from "../components/MapView";
+import OrderTrackingMap from "../components/OrderTrackingMap";
 
 import { addressToCoordinates } from "../utils/geocode";
 import "./CharityDashboard.css";
@@ -31,6 +32,7 @@ const CharityDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [charityLocation, setCharityLocation] = useState(null);
+  const [selectedTrackingOrder, setSelectedTrackingOrder] = useState(null);
   const [stats, setStats] = useState({
     totalClaimed: 0,
     activeClaims: 0,
@@ -359,6 +361,12 @@ const CharityDashboard = () => {
             onClick={() => setActiveTab("map")}
           >
             <FaMapMarkerAlt /> Map View
+          </button>
+          <button
+            className={`nav-btn ${activeTab === "tracking" ? "active" : ""}`}
+            onClick={() => setActiveTab("tracking")}
+          >
+            <FaTruck /> Order Tracking
           </button>
         </nav>
 
