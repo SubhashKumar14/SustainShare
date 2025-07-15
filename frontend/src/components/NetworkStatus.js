@@ -42,6 +42,10 @@ const NetworkStatus = () => {
             setBackendStatus("connected");
             setShowStatus(false);
           } catch (fetchError) {
+            // Handle AbortError and other fetch errors gracefully
+            if (fetchError.name === "AbortError") {
+              console.log("Backend health check timed out");
+            }
             setBackendStatus("mock");
             setShowStatus(true);
           }
