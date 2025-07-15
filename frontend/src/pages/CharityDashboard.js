@@ -124,7 +124,7 @@ const CharityDashboard = () => {
         [];
       setClaimedItems(claimedFood);
     } catch (error) {
-      // Demo claimed food data
+      // Demo claimed food data with tracking information
       const demoClaimed = [
         {
           id: 4,
@@ -132,10 +132,50 @@ const CharityDashboard = () => {
           quantity: "75 servings",
           category: "COOKED_FOOD",
           pickupLocation: "321 Elm St, Downtown",
-          status: "CLAIMED",
+          status: "IN_TRANSIT",
           claimedAt: "2024-12-24T14:00:00",
           claimedBy: currentCharityId,
-          coordinates: [40.7505, -73.9934],
+          donorLocation: [40.7505, -73.9934],
+          charityLocation: [40.7831, -73.9712],
+          donorName: "Maria's Restaurant",
+          donorPhone: "+1-555-123-4567",
+          charityName: "Community Kitchen",
+          charityPhone: "+1-555-987-6543",
+          charityAddress: "789 Charity Ave, Community Center",
+        },
+        {
+          id: 5,
+          name: "Fresh Bakery Items",
+          quantity: "40 pieces",
+          category: "BAKERY",
+          pickupLocation: "567 Baker St, Midtown",
+          status: "CLAIMED",
+          claimedAt: "2024-12-24T16:00:00",
+          claimedBy: currentCharityId,
+          donorLocation: [40.7614, -73.9776],
+          charityLocation: [40.7831, -73.9712],
+          donorName: "Sweet Delights Bakery",
+          donorPhone: "+1-555-234-5678",
+          charityName: "Community Kitchen",
+          charityPhone: "+1-555-987-6543",
+          charityAddress: "789 Charity Ave, Community Center",
+        },
+        {
+          id: 6,
+          name: "Organic Vegetables",
+          quantity: "100 lbs",
+          category: "FRESH_PRODUCE",
+          pickupLocation: "890 Farm Rd, Uptown",
+          status: "DELIVERED",
+          claimedAt: "2024-12-23T10:00:00",
+          claimedBy: currentCharityId,
+          donorLocation: [40.7749, -73.9442],
+          charityLocation: [40.7831, -73.9712],
+          donorName: "Green Valley Farm",
+          donorPhone: "+1-555-345-6789",
+          charityName: "Community Kitchen",
+          charityPhone: "+1-555-987-6543",
+          charityAddress: "789 Charity Ave, Community Center",
         },
       ];
       setClaimedItems(demoClaimed);
