@@ -6,9 +6,7 @@ import {
   FaChartBar,
   FaSearch,
   FaTrash,
-  FaEdit,
   FaMapMarkerAlt,
-  FaEye,
   FaDownload,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
