@@ -26,7 +26,7 @@ const CharityDashboard = () => {
   const [activeTab, setActiveTab] = useState("available");
   const [foodItems, setFoodItems] = useState([]);
   const [claimedItems, setClaimedItems] = useState([]);
-  const [selectedDonation, setSelectedDonation] = useState(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("ALL");
   const [loading, setLoading] = useState(false);
