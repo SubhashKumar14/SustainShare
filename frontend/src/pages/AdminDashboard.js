@@ -828,8 +828,8 @@ const AdminDashboard = () => {
               </div>
               <div className="map-container">
                 <MapView
-                  donorLocation={[40.7128, -74.006]} // Demo coordinates
-                  charityLocation={[40.7589, -73.9851]} // Demo coordinates
+                  donorLocation={[17.4065, 78.4772]} // Banjara Hills, Hyderabad
+                  charityLocation={[17.4126, 78.44]} // Jubilee Hills, Hyderabad
                 />
               </div>
             </div>
