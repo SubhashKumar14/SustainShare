@@ -46,6 +46,7 @@ function App() {
           pauseOnHover
           theme="colored"
         />
+        <BackendStatus />
       </Router>
     </AuthProvider>
   );
