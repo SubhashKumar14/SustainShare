@@ -9,7 +9,6 @@ import {
   FaUtensils,
   FaTruck,
   FaFilter,
-  FaRoute,
   FaPhoneAlt,
   FaCheckCircle,
   FaEye,
