@@ -118,7 +118,7 @@ const OrderTrackingMap = ({ order, onStatusUpdate, isAdmin = false }) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [order]);
+  }, [order]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initializeTracking = async () => {
     if (!order) return;
