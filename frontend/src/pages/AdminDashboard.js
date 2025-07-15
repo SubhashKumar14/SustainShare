@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
 import {
-  FaUserShield,
-  FaChartBar,
   FaUsers,
   FaUtensils,
   FaTruck,
+  FaChartBar,
   FaSearch,
-  FaClock,
-  FaMapMarkerAlt,
   FaTrash,
+  FaEdit,
+  FaMapMarkerAlt,
   FaEye,
   FaDownload,
-  FaCheckCircle,
-  FaExclamationTriangle,
-  FaHeart,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 import API from "../services/api";
 import MapView from "../components/MapView";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState("overview");
   const [data, setData] = useState({
     users: [],
     foodItems: [],
@@ -30,14 +25,14 @@ const AdminDashboard = () => {
       totalUsers: 0,
       totalDonations: 0,
       totalPickups: 0,
+      successfulDeliveries: 0,
+      averageResponseTime: 0,
       peopleFed: 0,
-      donors: 0,
-      charities: 0,
     },
   });
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("ALL");
+  const [activeTab, setActiveTab] = useState("overview");
   const [selectedTimeRange, setSelectedTimeRange] = useState("7days");
   const [selectedItem, setSelectedItem] = useState(null);
   const [showMap, setShowMap] = useState(false);
@@ -66,7 +61,7 @@ const AdminDashboard = () => {
         pickups,
         analytics: calculateAnalytics(users, foodItems, pickups),
       });
-        } catch (error) {
+    } catch (error) {
       console.error("Error fetching data:", error);
       // No demo data - require backend connection
       setData({
@@ -82,108 +77,6 @@ const AdminDashboard = () => {
           peopleFed: 0,
         },
       });
-          id: 1,
-          name: "John Doe",
-          email: "john@example.com",
-          role: "DONOR",
-          createdAt: "2024-12-20T10:00:00",
-          phone: "+1234567890",
-        },
-        {
-          id: 2,
-          name: "Jane Smith",
-          email: "jane@example.com",
-          role: "CHARITY",
-          createdAt: "2024-12-21T14:00:00",
-          phone: "+1234567891",
-        },
-        {
-          id: 3,
-          name: "Bob Wilson",
-          email: "bob@example.com",
-          role: "DONOR",
-          createdAt: "2024-12-22T09:00:00",
-          phone: "+1234567892",
-        },
-        {
-          id: 4,
-          name: "Mary Johnson",
-          email: "mary@example.com",
-          role: "CHARITY",
-          createdAt: "2024-12-23T16:00:00",
-          phone: "+1234567893",
-        },
-        {
-          id: 5,
-          name: "Admin User",
-          email: "admin@example.com",
-          role: "ADMIN",
-          createdAt: "2024-12-19T08:00:00",
-          phone: "+1234567894",
-        },
-      ];
-
-      const demoFood = [
-        {
-          id: 1,
-          name: "Fresh Vegetables",
-          quantity: "50 servings",
-          category: "FRESH_PRODUCE",
-          status: "AVAILABLE",
-          pickupLocation: "123 Main St",
-          donorId: "donor123",
-          createdAt: "2024-12-24T10:00:00",
-          expiryTime: "2024-12-25T18:00:00",
-        },
-        {
-          id: 2,
-          name: "Cooked Rice",
-          quantity: "100 servings",
-          category: "COOKED_FOOD",
-          status: "CLAIMED",
-          pickupLocation: "456 Oak Ave",
-          donorId: "donor456",
-          createdAt: "2024-12-24T08:00:00",
-          expiryTime: "2024-12-24T20:00:00",
-        },
-        {
-          id: 3,
-          name: "Packaged Bread",
-          quantity: "30 loaves",
-          category: "PACKAGED_FOOD",
-          status: "DELIVERED",
-          pickupLocation: "789 Pine St",
-          donorId: "donor789",
-          createdAt: "2024-12-23T15:00:00",
-          expiryTime: "2024-12-26T12:00:00",
-        },
-      ];
-
-      const demoPickups = [
-        {
-          id: 1,
-          scheduledTime: "2024-12-24T15:00:00",
-          status: "Completed",
-          charity: { id: 1, name: "Food Bank Central" },
-          foodItem: { id: 1, name: "Fresh Vegetables" },
-          createdAt: "2024-12-24T14:30:00",
-        },
-        {
-          id: 2,
-          scheduledTime: "2024-12-24T17:00:00",
-          status: "Scheduled",
-          charity: { id: 2, name: "Community Kitchen" },
-          foodItem: { id: 2, name: "Cooked Rice" },
-          createdAt: "2024-12-24T16:00:00",
-        },
-      ];
-
-      setData({
-        users: demoUsers,
-        foodItems: demoFood,
-        pickups: demoPickups,
-        analytics: calculateAnalytics(demoUsers, demoFood, demoPickups),
-      });
     } finally {
       setLoading(false);
     }
@@ -194,19 +87,32 @@ const AdminDashboard = () => {
     const donors = users.filter((u) => u.role === "DONOR").length;
     const charities = users.filter((u) => u.role === "CHARITY").length;
     const totalDonations = foodItems.length;
+    const successfulDeliveries = foodItems.filter(
+      (item) => item.status === "DELIVERED",
+    ).length;
     const totalPickups = pickups.length;
-    const peopleFed = foodItems.reduce((sum, item) => {
-      const qty = parseInt(item.quantity) || 0;
-      return sum + (item.status === "DELIVERED" ? qty : 0);
-    }, 0);
+    const completedPickups = pickups.filter(
+      (pickup) => pickup.status === "Completed",
+    ).length;
+
+    // Calculate people fed based on delivered food quantities
+    const peopleFed = foodItems
+      .filter((item) => item.status === "DELIVERED")
+      .reduce((sum, item) => {
+        const qty = parseInt(item.quantity) || 0;
+        return sum + qty;
+      }, 0);
 
     return {
       totalUsers,
-      totalDonations,
-      totalPickups,
-      peopleFed,
       donors,
       charities,
+      totalDonations,
+      totalPickups,
+      successfulDeliveries,
+      completedPickups,
+      averageResponseTime: totalPickups > 0 ? 24 : 0,
+      peopleFed,
     };
   };
 
@@ -217,7 +123,7 @@ const AdminDashboard = () => {
       await API.delete(`/users/${userId}`);
       setData((prev) => ({
         ...prev,
-        users: prev.users.filter((u) => u.id !== userId),
+        users: prev.users.filter((user) => user.id !== userId),
       }));
       toast.success("User deleted successfully!");
     } catch (error) {
@@ -225,7 +131,7 @@ const AdminDashboard = () => {
     }
   };
 
-  const deleteFoodItem = async (foodId) => {
+  const deleteFood = async (foodId) => {
     if (!window.confirm("Are you sure you want to delete this food item?"))
       return;
 
@@ -233,7 +139,7 @@ const AdminDashboard = () => {
       await API.delete(`/food/${foodId}`);
       setData((prev) => ({
         ...prev,
-        foodItems: prev.foodItems.filter((f) => f.id !== foodId),
+        foodItems: prev.foodItems.filter((item) => item.id !== foodId),
       }));
       toast.success("Food item deleted successfully!");
     } catch (error) {
@@ -246,118 +152,47 @@ const AdminDashboard = () => {
       await API.put(`/users/${userId}/role`, { role: newRole });
       setData((prev) => ({
         ...prev,
-        users: prev.users.map((u) =>
-          u.id === userId ? { ...u, role: newRole } : u,
+        users: prev.users.map((user) =>
+          user.id === userId ? { ...user, role: newRole } : user,
         ),
       }));
-      toast.success(`User role updated to ${newRole}!`);
+      toast.success("User role updated successfully!");
     } catch (error) {
       toast.error("Failed to update user role");
     }
   };
 
-  const exportData = (type) => {
-    let dataToExport;
-    let filename;
+  const exportData = () => {
+    const exportObject = {
+      users: data.users,
+      foodItems: data.foodItems,
+      pickups: data.pickups,
+      analytics: data.analytics,
+      exportedAt: new Date().toISOString(),
+    };
 
-    switch (type) {
-      case "users":
-        dataToExport = data.users;
-        filename = "users_export.json";
-        break;
-      case "food":
-        dataToExport = data.foodItems;
-        filename = "food_donations_export.json";
-        break;
-      case "pickups":
-        dataToExport = data.pickups;
-        filename = "pickups_export.json";
-        break;
-      default:
-        return;
-    }
-
-    const dataStr = JSON.stringify(dataToExport, null, 2);
+    const dataStr = JSON.stringify(exportObject, null, 2);
     const dataBlob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = filename;
+    link.download = `sustain_share_data_${new Date().toISOString().split("T")[0]}.json`;
     link.click();
-
-    toast.success(`${type} data exported successfully!`);
+    URL.revokeObjectURL(url);
+    toast.success("Data exported successfully!");
   };
 
-  const filteredUsers = data.users.filter((user) => {
-    const matchesSearch =
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterType === "ALL" || user.role === filterType;
-    return matchesSearch && matchesFilter;
-  });
+  const filteredUsers = data.users.filter(
+    (user) =>
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
-  const filteredFood = data.foodItems.filter((item) => {
-    const matchesSearch =
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.pickupLocation.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterType === "ALL" || item.status === filterType;
-    return matchesSearch && matchesFilter;
-  });
-
-  const filteredPickups = data.pickups.filter((pickup) => {
-    const matchesSearch =
-      pickup.charity?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pickup.foodItem?.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterType === "ALL" || pickup.status === filterType;
-    return matchesSearch && matchesFilter;
-  });
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "AVAILABLE":
-        return <FaEye className="status-icon available" />;
-      case "CLAIMED":
-        return <FaHeart className="status-icon claimed" />;
-      case "DELIVERED":
-        return <FaCheckCircle className="status-icon delivered" />;
-      case "Completed":
-        return <FaCheckCircle className="status-icon completed" />;
-      case "Scheduled":
-        return <FaClock className="status-icon scheduled" />;
-      default:
-        return <FaExclamationTriangle className="status-icon" />;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "AVAILABLE":
-        return "#17a2b8";
-      case "CLAIMED":
-        return "#ffc107";
-      case "DELIVERED":
-        return "#28a745";
-      case "Completed":
-        return "#28a745";
-      case "Scheduled":
-        return "#6f42c1";
-      default:
-        return "#6c757d";
-    }
-  };
-
-  const getRoleColor = (role) => {
-    switch (role) {
-      case "DONOR":
-        return "#007bff";
-      case "CHARITY":
-        return "#dc3545";
-      case "ADMIN":
-        return "#6f42c1";
-      default:
-        return "#6c757d";
-    }
-  };
+  const filteredFood = data.foodItems.filter(
+    (item) =>
+      item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.pickupLocation?.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <div className="admin-dashboard">
@@ -365,22 +200,19 @@ const AdminDashboard = () => {
         <div className="header-content">
           <div className="header-text">
             <h1>
-              <FaUserShield className="header-icon" />
+              <FaChartBar className="header-icon" />
               Admin Dashboard
             </h1>
-            <p>Manage users, monitor donations, and track system analytics</p>
+            <p>Manage users, donations, and system analytics</p>
           </div>
           <div className="header-actions">
-            <select
-              value={selectedTimeRange}
-              onChange={(e) => setSelectedTimeRange(e.target.value)}
-              className="time-range-select"
-            >
-              <option value="7days">Last 7 Days</option>
-              <option value="30days">Last 30 Days</option>
-              <option value="90days">Last 90 Days</option>
-              <option value="all">All Time</option>
-            </select>
+            <button onClick={exportData} className="export-btn">
+              <FaDownload />
+              Export Data
+            </button>
+            <button onClick={fetchAllData} className="refresh-btn">
+              🔄 Refresh
+            </button>
           </div>
         </div>
       </header>
@@ -411,6 +243,12 @@ const AdminDashboard = () => {
           >
             <FaTruck /> Pickups
           </button>
+          <button
+            className={`nav-btn ${activeTab === "map" ? "active" : ""}`}
+            onClick={() => setActiveTab("map")}
+          >
+            <FaMapMarkerAlt /> Map View
+          </button>
         </nav>
 
         <div className="tab-content">
@@ -418,90 +256,74 @@ const AdminDashboard = () => {
             <div className="overview-tab">
               <h2>📊 System Overview</h2>
 
-              <div className="analytics-grid">
-                <div className="analytics-card">
-                  <div className="analytics-icon users">
-                    <FaUsers />
-                  </div>
-                  <div className="analytics-content">
-                    <span className="analytics-number">
-                      {data.analytics.totalUsers}
-                    </span>
-                    <span className="analytics-label">Total Users</span>
-                    <div className="analytics-breakdown">
-                      <span>👥 {data.analytics.donors} Donors</span>
-                      <span>❤️ {data.analytics.charities} Charities</span>
-                    </div>
-                  </div>
+              {loading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                  <p>Loading system data...</p>
                 </div>
-
-                <div className="analytics-card">
-                  <div className="analytics-icon donations">
-                    <FaUtensils />
-                  </div>
-                  <div className="analytics-content">
-                    <span className="analytics-number">
-                      {data.analytics.totalDonations}
-                    </span>
-                    <span className="analytics-label">Food Donations</span>
-                    <div className="analytics-breakdown">
-                      <span>📦 Total Posted</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="analytics-card">
-                  <div className="analytics-icon pickups">
-                    <FaTruck />
-                  </div>
-                  <div className="analytics-content">
-                    <span className="analytics-number">
-                      {data.analytics.totalPickups}
-                    </span>
-                    <span className="analytics-label">Pickups</span>
-                    <div className="analytics-breakdown">
-                      <span>🚚 Scheduled & Completed</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="analytics-card">
-                  <div className="analytics-icon impact">
-                    <FaHeart />
-                  </div>
-                  <div className="analytics-content">
-                    <span className="analytics-number">
-                      {data.analytics.peopleFed}
-                    </span>
-                    <span className="analytics-label">People Fed</span>
-                    <div className="analytics-breakdown">
-                      <span>🍽️ Through Donations</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="recent-activity">
-                <h3>Recent Activity</h3>
-                <div className="activity-list">
-                  {data.pickups.slice(0, 5).map((pickup) => (
-                    <div key={pickup.id} className="activity-item">
-                      <div className="activity-icon">
-                        {getStatusIcon(pickup.status)}
+              ) : (
+                <>
+                  <div className="stats-grid">
+                    <div className="stat-card">
+                      <div className="stat-icon users">
+                        <FaUsers />
                       </div>
-                      <div className="activity-content">
-                        <div className="activity-title">
-                          {pickup.charity?.name} picked up{" "}
-                          {pickup.foodItem?.name}
-                        </div>
-                        <div className="activity-time">
-                          {new Date(pickup.createdAt).toLocaleString()}
-                        </div>
+                      <div className="stat-content">
+                        <span className="stat-number">
+                          {data.analytics.totalUsers}
+                        </span>
+                        <span className="stat-label">Total Users</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+
+                    <div className="stat-card">
+                      <div className="stat-icon donations">
+                        <FaUtensils />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-number">
+                          {data.analytics.totalDonations}
+                        </span>
+                        <span className="stat-label">Food Donations</span>
+                      </div>
+                    </div>
+
+                    <div className="stat-card">
+                      <div className="stat-icon pickups">
+                        <FaTruck />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-number">
+                          {data.analytics.totalPickups}
+                        </span>
+                        <span className="stat-label">Scheduled Pickups</span>
+                      </div>
+                    </div>
+
+                    <div className="stat-card">
+                      <div className="stat-icon delivered">
+                        <FaChartBar />
+                      </div>
+                      <div className="stat-content">
+                        <span className="stat-number">
+                          {data.analytics.peopleFed}
+                        </span>
+                        <span className="stat-label">People Fed</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {data.analytics.totalUsers === 0 && (
+                    <div className="empty-state">
+                      <FaChartBar size={48} />
+                      <h3>No data available</h3>
+                      <p>
+                        Please start the backend server to load system data.
+                      </p>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
 
@@ -509,17 +331,6 @@ const AdminDashboard = () => {
             <div className="users-tab">
               <div className="tab-header">
                 <h2>👥 User Management</h2>
-                <div className="tab-actions">
-                  <button
-                    className="export-btn"
-                    onClick={() => exportData("users")}
-                  >
-                    <FaDownload /> Export Users
-                  </button>
-                </div>
-              </div>
-
-              <div className="filters-section">
                 <div className="search-box">
                   <FaSearch />
                   <input
@@ -529,29 +340,19 @@ const AdminDashboard = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                <select
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value)}
-                  className="filter-select"
-                >
-                  <option value="ALL">All Roles</option>
-                  <option value="DONOR">Donors</option>
-                  <option value="CHARITY">Charities</option>
-                  <option value="ADMIN">Admins</option>
-                </select>
               </div>
 
-              {loading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  <p>Loading users...</p>
+              {filteredUsers.length === 0 ? (
+                <div className="empty-state">
+                  <FaUsers size={48} />
+                  <h3>No users found</h3>
+                  <p>Start the backend server to load user data.</p>
                 </div>
               ) : (
-                <div className="table-container">
-                  <table className="data-table">
+                <div className="data-table">
+                  <table>
                     <thead>
                       <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
@@ -562,58 +363,37 @@ const AdminDashboard = () => {
                     <tbody>
                       {filteredUsers.map((user) => (
                         <tr key={user.id}>
-                          <td>#{user.id}</td>
-                          <td>
-                            <div className="user-info">
-                              <span className="user-name">{user.name}</span>
-                              {user.phone && (
-                                <span className="user-phone">{user.phone}</span>
-                              )}
-                            </div>
-                          </td>
+                          <td>{user.name}</td>
                           <td>{user.email}</td>
                           <td>
-                            <span
-                              className="role-badge"
-                              style={{
-                                backgroundColor: getRoleColor(user.role),
-                              }}
+                            <select
+                              value={user.role}
+                              onChange={(e) =>
+                                updateUserRole(user.id, e.target.value)
+                              }
+                              className="role-select"
                             >
-                              {user.role}
-                            </span>
+                              <option value="DONOR">Donor</option>
+                              <option value="CHARITY">Charity</option>
+                              <option value="ADMIN">Admin</option>
+                            </select>
                           </td>
                           <td>
                             {new Date(user.createdAt).toLocaleDateString()}
                           </td>
                           <td>
-                            <div className="action-buttons">
-                              <select
-                                value={user.role}
-                                onChange={(e) =>
-                                  updateUserRole(user.id, e.target.value)
-                                }
-                                className="role-select"
-                              >
-                                <option value="DONOR">Donor</option>
-                                <option value="CHARITY">Charity</option>
-                                <option value="ADMIN">Admin</option>
-                              </select>
-                              <button
-                                className="delete-btn"
-                                onClick={() => deleteUser(user.id)}
-                                title="Delete User"
-                              >
-                                <FaTrash />
-                              </button>
-                            </div>
+                            <button
+                              onClick={() => deleteUser(user.id)}
+                              className="delete-btn"
+                              title="Delete user"
+                            >
+                              <FaTrash />
+                            </button>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  {filteredUsers.length === 0 && (
-                    <div className="empty-state">No users found</div>
-                  )}
                 </div>
               )}
             </div>
@@ -623,17 +403,6 @@ const AdminDashboard = () => {
             <div className="food-tab">
               <div className="tab-header">
                 <h2>🍽️ Food Donations</h2>
-                <div className="tab-actions">
-                  <button
-                    className="export-btn"
-                    onClick={() => exportData("food")}
-                  >
-                    <FaDownload /> Export Food Data
-                  </button>
-                </div>
-              </div>
-
-              <div className="filters-section">
                 <div className="search-box">
                   <FaSearch />
                   <input
@@ -643,200 +412,64 @@ const AdminDashboard = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                <select
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value)}
-                  className="filter-select"
-                >
-                  <option value="ALL">All Status</option>
-                  <option value="AVAILABLE">Available</option>
-                  <option value="CLAIMED">Claimed</option>
-                  <option value="DELIVERED">Delivered</option>
-                </select>
               </div>
 
-              <div className="table-container">
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Food Name</th>
-                      <th>Quantity</th>
-                      <th>Category</th>
-                      <th>Status</th>
-                      <th>Location</th>
-                      <th>Expiry</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredFood.map((item) => (
-                      <tr key={item.id}>
-                        <td>#{item.id}</td>
-                        <td>
-                          <div className="food-info">
-                            <span className="food-name">{item.name}</span>
-                          </div>
-                        </td>
-                        <td>{item.quantity}</td>
-                        <td>{item.category?.replace("_", " ")}</td>
-                        <td>
-                          <div
-                            className="status-badge"
-                            style={{
-                              backgroundColor: getStatusColor(item.status),
-                            }}
-                          >
-                            {getStatusIcon(item.status)}
-                            {item.status}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="location-cell">
-                            <FaMapMarkerAlt />
-                            {item.pickupLocation}
-                          </div>
-                        </td>
-                        <td>{new Date(item.expiryTime).toLocaleString()}</td>
-                        <td>
-                          <div className="action-buttons">
-                            <button
-                              className="view-btn"
-                              onClick={() => setSelectedItem(item)}
-                              title="View Details"
+              {filteredFood.length === 0 ? (
+                <div className="empty-state">
+                  <FaUtensils size={48} />
+                  <h3>No food donations found</h3>
+                  <p>Start the backend server to load donation data.</p>
+                </div>
+              ) : (
+                <div className="data-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Food Item</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Pickup Location</th>
+                        <th>Expiry</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredFood.map((item) => (
+                        <tr key={item.id}>
+                          <td>{item.name}</td>
+                          <td>{item.quantity}</td>
+                          <td>
+                            <span
+                              className={`status-badge ${item.status?.toLowerCase()}`}
                             >
-                              <FaEye />
-                            </button>
+                              {item.status}
+                            </span>
+                          </td>
+                          <td>{item.pickupLocation}</td>
+                          <td>
+                            {new Date(item.expiryTime).toLocaleDateString()}
+                          </td>
+                          <td>
                             <button
+                              onClick={() => deleteFood(item.id)}
                               className="delete-btn"
-                              onClick={() => deleteFoodItem(item.id)}
-                              title="Delete Food Item"
+                              title="Delete food item"
                             >
                               <FaTrash />
                             </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {filteredFood.length === 0 && (
-                  <div className="empty-state">No food items found</div>
-                )}
-              </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
 
-          {activeTab === "pickups" && (
-            <div className="pickups-tab">
-              <div className="tab-header">
-                <h2>🚚 Pickup Management</h2>
-                <div className="tab-actions">
-                  <button
-                    className="export-btn"
-                    onClick={() => exportData("pickups")}
-                  >
-                    <FaDownload /> Export Pickups
-                  </button>
-                </div>
-              </div>
-
-              <div className="filters-section">
-                <div className="search-box">
-                  <FaSearch />
-                  <input
-                    type="text"
-                    placeholder="Search pickups..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <select
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value)}
-                  className="filter-select"
-                >
-                  <option value="ALL">All Status</option>
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="Completed">Completed</option>
-                </select>
-              </div>
-
-              <div className="table-container">
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Charity</th>
-                      <th>Food Item</th>
-                      <th>Scheduled Time</th>
-                      <th>Status</th>
-                      <th>Created</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredPickups.map((pickup) => (
-                      <tr key={pickup.id}>
-                        <td>#{pickup.id}</td>
-                        <td>{pickup.charity?.name || "N/A"}</td>
-                        <td>{pickup.foodItem?.name || "N/A"}</td>
-                        <td>
-                          <div className="time-cell">
-                            <FaClock />
-                            {new Date(pickup.scheduledTime).toLocaleString()}
-                          </div>
-                        </td>
-                        <td>
-                          <div
-                            className="status-badge"
-                            style={{
-                              backgroundColor: getStatusColor(pickup.status),
-                            }}
-                          >
-                            {getStatusIcon(pickup.status)}
-                            {pickup.status}
-                          </div>
-                        </td>
-                        <td>
-                          {new Date(pickup.createdAt).toLocaleDateString()}
-                        </td>
-                        <td>
-                          <div className="action-buttons">
-                            <button
-                              className="view-btn"
-                              onClick={() => {
-                                setSelectedItem(pickup);
-                                setShowMap(true);
-                              }}
-                              title="View on Map"
-                            >
-                              <FaMapMarkerAlt />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {filteredPickups.length === 0 && (
-                  <div className="empty-state">No pickups found</div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Map Modal */}
-        {showMap && selectedItem && (
-          <div className="map-modal">
-            <div className="map-modal-content">
-              <div className="map-modal-header">
-                <h3>📍 Pickup Location</h3>
-                <button className="close-btn" onClick={() => setShowMap(false)}>
-                  ×
-                </button>
-              </div>
+          {activeTab === "map" && (
+            <div className="map-tab">
+              <h2>🗺️ Donation Map</h2>
               <div className="map-container">
                 <MapView
                   donorLocation={[17.4065, 78.4772]} // Banjara Hills, Hyderabad
@@ -844,8 +477,8 @@ const AdminDashboard = () => {
                 />
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
