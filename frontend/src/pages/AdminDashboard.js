@@ -67,9 +67,21 @@ const AdminDashboard = () => {
         analytics: calculateAnalytics(users, foodItems, pickups),
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
-      // Use comprehensive demo data
-      const demoUsers = [
+            console.error("Error fetching data:", error);
+      // No demo data - require backend connection
+      setData({
+        users: [],
+        foodItems: [],
+        pickups: [],
+        analytics: {
+          totalUsers: 0,
+          totalDonations: 0,
+          totalPickups: 0,
+          successfulDeliveries: 0,
+          averageResponseTime: 0,
+          peopleFed: 0,
+        },
+      });
         {
           id: 1,
           name: "John Doe",
