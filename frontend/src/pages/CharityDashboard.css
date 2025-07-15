@@ -788,6 +788,16 @@
     gap: 12px;
     align-items: stretch;
   }
+
+  .tracking-section {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 16px;
+  }
+
+  .order-selection {
+    max-height: 300px;
+  }
 }
 
 @media (max-width: 480px) {
