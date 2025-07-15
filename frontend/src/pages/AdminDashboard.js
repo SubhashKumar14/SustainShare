@@ -66,8 +66,8 @@ const AdminDashboard = () => {
         pickups,
         analytics: calculateAnalytics(users, foodItems, pickups),
       });
-    } catch (error) {
-            console.error("Error fetching data:", error);
+        } catch (error) {
+      console.error("Error fetching data:", error);
       // No demo data - require backend connection
       setData({
         users: [],
@@ -82,7 +82,6 @@ const AdminDashboard = () => {
           peopleFed: 0,
         },
       });
-        {
           id: 1,
           name: "John Doe",
           email: "john@example.com",
