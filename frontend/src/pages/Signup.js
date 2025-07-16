@@ -30,7 +30,7 @@ const Signup = () => {
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
-      [name]: name === "role" ? value.toUpperCase() : value,
+      [name]: value,
     }));
 
     // Real-time validation
