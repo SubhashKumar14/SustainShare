@@ -294,16 +294,16 @@ export const smartApi = {
         throw new Error("Backend not available");
       }
 
-      // Try real API
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-      const response = await fetch(`http://localhost:8080/api${url}`, {
+      // Try real API with timeout
+      const fetchPromise = fetch(`http://localhost:8080/api${url}`, {
         method: "DELETE",
-        signal: controller.signal,
       });
 
-      clearTimeout(timeoutId);
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), 5000),
+      );
+
+      const response = await Promise.race([fetchPromise, timeoutPromise]);
 
       if (!response.ok) throw new Error("API request failed");
 
