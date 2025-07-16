@@ -27,7 +27,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Mild",
         servings: 6,
-        price: 240,
         preparationTime: "2 hours",
         ingredients: [
           "Black Lentils",
