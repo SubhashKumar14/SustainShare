@@ -115,7 +115,9 @@ const MapView = ({ donorLocation, charityLocation }) => {
         center={mapCenter}
         zoom={13}
         className="map-view"
-        whenCreated={(map) => map.fitBounds([donorLocation, charityLocation])}
+        whenCreated={(map) =>
+          map.fitBounds([finalDonorLocation, finalCharityLocation])
+        }
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
