@@ -50,9 +50,8 @@ const Navbar = () => {
               to="/menu"
               className={`nav-link ${location.pathname === "/menu" ? "active" : ""}`}
             >
-              🍽️ Menu
+              🍽️ Available Food
             </Link>
-            <CartButton />
             <Link
               to="/signup"
               className={`nav-link ${location.pathname === "/signup" ? "active" : ""}`}
