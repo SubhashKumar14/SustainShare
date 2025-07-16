@@ -1,5 +1,4 @@
 // Mock API service for offline functionality
-import { toast } from "react-toastify";
 
 // Mock data storage using localStorage
 const STORAGE_KEYS = {
