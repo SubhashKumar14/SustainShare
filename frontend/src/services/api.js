@@ -12,7 +12,7 @@ const enhancedAPI = {
       const response = await API.get(url);
       return response;
     } catch (error) {
-      console.log("API error, falling back to mock:", error.message);
+      // Silently fall back to mock API when backend is unavailable
       return await smartApi.get(url);
     }
   },
@@ -22,7 +22,7 @@ const enhancedAPI = {
       const response = await API.post(url, data);
       return response;
     } catch (error) {
-      console.log("API error, falling back to mock:", error.message);
+      // Silently fall back to mock API when backend is unavailable
       return await smartApi.post(url, data);
     }
   },
@@ -32,7 +32,7 @@ const enhancedAPI = {
       const response = await API.delete(url);
       return response;
     } catch (error) {
-      console.log("API error, falling back to mock:", error.message);
+      // Silently fall back to mock API when backend is unavailable
       return await smartApi.delete(url);
     }
   },
@@ -42,7 +42,7 @@ const enhancedAPI = {
       const response = await API.put(url, data);
       return response;
     } catch (error) {
-      console.log("API error, falling back to mock:", error.message);
+      // Silently fall back to mock API when backend is unavailable
       // For now, treat PUT like POST
       return await smartApi.post(url, data);
     }
