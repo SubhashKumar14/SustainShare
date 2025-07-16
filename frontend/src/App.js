@@ -13,6 +13,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AvailableFood from "./pages/AvailableFood";
 import FoodList from "./components/FoodList";
+import FoodMenu from "./components/FoodMenu";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { initializeDemoData } from "./services/demoData";
