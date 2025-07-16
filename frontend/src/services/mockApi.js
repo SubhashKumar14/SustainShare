@@ -225,7 +225,7 @@ export const smartApi = {
       const data = await response.json();
       return { data };
     } catch (error) {
-      // Silently fall back to mock API
+      // Fall back to mock API
 
       // Handle different endpoints
       if (url === "/food") {
