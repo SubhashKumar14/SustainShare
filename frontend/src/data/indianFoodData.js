@@ -1,4 +1,4 @@
-// Indian Food Data with Images and Varieties
+// Indian Food Data for Donation Platform (No Prices)
 export const indianFoodCategories = {
   "North Indian": {
     icon: "🍛",
@@ -59,7 +59,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Medium",
         servings: 3,
-        price: 280,
         preparationTime: "30 mins",
         ingredients: ["Paneer", "Yogurt", "Bell Peppers", "Onions", "Spices"],
       },
@@ -79,7 +78,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Medium",
         servings: 2,
-        price: 120,
         preparationTime: "25 mins",
         ingredients: ["Rice", "Lentils", "Potatoes", "Onions", "Curry Leaves"],
       },
@@ -93,7 +91,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Mild",
         servings: 4,
-        price: 90,
         preparationTime: "30 mins",
         ingredients: ["Rice", "Urad Dal", "Toor Dal", "Vegetables", "Tamarind"],
       },
@@ -107,7 +104,6 @@ export const indianFoodCategories = {
         type: "Non-Veg",
         spiceLevel: "Hot",
         servings: 4,
-        price: 350,
         preparationTime: "50 mins",
         ingredients: [
           "Chicken",
@@ -127,7 +123,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Mild",
         servings: 4,
-        price: 140,
         preparationTime: "20 mins",
         ingredients: [
           "Basmati Rice",
@@ -153,7 +148,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Medium",
         servings: 2,
-        price: 100,
         preparationTime: "30 mins",
         ingredients: [
           "Mixed Vegetables",
@@ -173,7 +167,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Medium",
         servings: 1,
-        price: 40,
         preparationTime: "20 mins",
         ingredients: [
           "Potatoes",
@@ -193,7 +186,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Medium",
         servings: 3,
-        price: 180,
         preparationTime: "25 mins",
         ingredients: ["Puri", "Potatoes", "Chickpeas", "Yogurt", "Chutneys"],
       },
@@ -207,7 +199,6 @@ export const indianFoodCategories = {
         type: "Non-Veg",
         spiceLevel: "Medium",
         servings: 1,
-        price: 160,
         preparationTime: "35 mins",
         ingredients: ["Chicken", "Roti", "Onions", "Mint Chutney", "Yogurt"],
       },
@@ -227,7 +218,6 @@ export const indianFoodCategories = {
         type: "Non-Veg",
         spiceLevel: "Medium",
         servings: 4,
-        price: 320,
         preparationTime: "40 mins",
         ingredients: ["Fish", "Potatoes", "Tomatoes", "Onions", "Turmeric"],
       },
@@ -241,7 +231,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "None",
         servings: 6,
-        price: 150,
         preparationTime: "45 mins",
         ingredients: ["Cottage Cheese", "Sugar", "Cardamom", "Rose Water"],
       },
@@ -255,7 +244,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Mild",
         servings: 4,
-        price: 180,
         preparationTime: "25 mins",
         ingredients: [
           "Potatoes",
@@ -281,7 +269,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Mild",
         servings: 2,
-        price: 60,
         preparationTime: "10 mins",
         ingredients: ["Tea", "Milk", "Cardamom", "Ginger", "Cinnamon"],
       },
@@ -295,7 +282,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "Medium",
         servings: 2,
-        price: 120,
         preparationTime: "15 mins",
         ingredients: ["Samosas", "Yogurt", "Chutneys", "Onions", "Sev"],
       },
@@ -310,7 +296,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "None",
         servings: 1,
-        price: 80,
         preparationTime: "5 mins",
         ingredients: ["Milk", "Cardamom", "Pistachios", "Sugar", "Cream"],
       },
