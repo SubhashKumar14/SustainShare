@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DonorDashboard from "./pages/DonorDashboard";
 import CharityDashboard from "./pages/CharityDashboard";
@@ -14,6 +14,7 @@ import AvailableFood from "./pages/AvailableFood";
 import FoodList from "./components/FoodList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { initializeDemoData } from "./services/demoData";
 
 function App() {
   return (
