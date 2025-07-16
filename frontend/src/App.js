@@ -17,6 +17,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { initializeDemoData } from "./services/demoData";
 
 function App() {
+  useEffect(() => {
+    // Initialize demo data on app start
+    initializeDemoData();
+  }, []);
+
   return (
     <AuthProvider>
       <Router>
