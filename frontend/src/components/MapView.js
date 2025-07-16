@@ -125,7 +125,7 @@ const MapView = ({ donorLocation, charityLocation }) => {
         />
 
         {/* Donor Marker */}
-        <Marker position={donorLocation} icon={donorIcon}>
+        <Marker position={finalDonorLocation} icon={donorIcon}>
           <Popup>
             <div className="map-popup">
               <h3>Donor Location</h3>
