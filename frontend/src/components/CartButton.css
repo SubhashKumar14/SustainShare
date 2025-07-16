@@ -1,0 +1,146 @@
+/* Cart Button Styling */
+.cart-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 8px 12px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.9rem;
+  min-height: 44px;
+}
+
+.cart-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cart-button.has-items {
+  background: rgba(102, 126, 234, 0.9);
+  border-color: rgba(102, 126, 234, 1);
+  backdrop-filter: blur(10px);
+}
+
+.cart-button.has-items:hover {
+  background: rgba(102, 126, 234, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e53e3e;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 2px solid white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.cart-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.cart-count {
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.cart-total {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cart-button {
+    padding: 8px;
+    gap: 0;
+  }
+
+  .cart-info {
+    display: none;
+  }
+
+  .cart-icon {
+    font-size: 1.2rem;
+  }
+
+  .cart-badge {
+    top: -6px;
+    right: -6px;
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-button {
+    min-height: 40px;
+    padding: 6px;
+  }
+
+  .cart-icon {
+    font-size: 1.1rem;
+  }
+
+  .cart-badge {
+    width: 14px;
+    height: 14px;
+    font-size: 0.6rem;
+    top: -5px;
+    right: -5px;
+  }
+}
+
+/* Animation for adding items */
+.cart-button.adding {
+  animation: cartBounce 0.3s ease;
+}
+
+@keyframes cartBounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
