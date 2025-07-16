@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import TrackPickup from "./pages/TrackPickup";
 import "leaflet/dist/leaflet.css";
 import { AuthProvider } from "./contexts/AuthContext";
-import { CartProvider } from "./contexts/CartContext";
+import { ClaimProvider } from "./contexts/ClaimContext";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AvailableFood from "./pages/AvailableFood";
