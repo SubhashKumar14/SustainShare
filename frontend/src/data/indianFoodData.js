@@ -14,7 +14,6 @@ export const indianFoodCategories = {
         type: "Non-Veg",
         spiceLevel: "Medium",
         servings: 4,
-        price: 320,
         preparationTime: "45 mins",
         ingredients: ["Chicken", "Tomato", "Cream", "Butter", "Spices"],
       },
