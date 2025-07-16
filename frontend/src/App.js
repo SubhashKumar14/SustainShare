@@ -54,6 +54,7 @@ function App() {
             pauseOnHover
             theme="colored"
           />
+          <ClaimNotification />
         </Router>
       </ClaimProvider>
     </AuthProvider>
