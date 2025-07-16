@@ -1,18 +1,19 @@
 import React, { useState, useMemo } from "react";
 import {
-  FaPlus,
-  FaMinus,
-  FaShoppingCart,
+  FaHeart,
+  FaCheckCircle,
   FaClock,
   FaFire,
   FaLeaf,
+  FaUtensils,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 import {
   indianFoodCategories,
   getAllFoodItems,
   searchFoodItems,
 } from "../data/indianFoodData";
-import { useCart } from "../contexts/CartContext";
+import { useClaim } from "../contexts/ClaimContext";
 import "./FoodMenu.css";
 
 const FoodMenu = () => {
@@ -21,7 +22,7 @@ const FoodMenu = () => {
   const [filterType, setFilterType] = useState("All");
   const [sortBy, setSortBy] = useState("name");
 
-  const { addToCart, removeFromCart, getItemQuantity, isInCart } = useCart();
+  const { claimFood, removeClaim, isClaimed } = useClaim();
 
   // Get filtered and sorted food items
   const filteredItems = useMemo(() => {
@@ -45,15 +46,13 @@ const FoodMenu = () => {
     // Apply sorting
     items.sort((a, b) => {
       switch (sortBy) {
-        case "price-low":
-          return a.price - b.price;
-        case "price-high":
-          return b.price - a.price;
         case "time":
           return parseInt(a.preparationTime) - parseInt(b.preparationTime);
         case "spice":
           const spiceOrder = { None: 0, Mild: 1, Medium: 2, Hot: 3 };
           return spiceOrder[a.spiceLevel] - spiceOrder[b.spiceLevel];
+        case "servings":
+          return b.servings - a.servings;
         default:
           return a.name.localeCompare(b.name);
       }
@@ -82,8 +81,8 @@ const FoodMenu = () => {
   return (
     <div className="food-menu-container">
       <div className="menu-header">
-        <h1>🍽️ Food Menu</h1>
-        <p>Discover delicious Indian cuisine available for donation</p>
+        <h1>🍽️ Available Food Donations</h1>
+        <p>Claim delicious food items from generous donors in your community</p>
       </div>
 
       {/* Search and Filters */}
@@ -136,8 +135,7 @@ const FoodMenu = () => {
               className="filter-select"
             >
               <option value="name">Name (A-Z)</option>
-              <option value="price-low">Price (Low to High)</option>
-              <option value="price-high">Price (High to Low)</option>
+              <option value="servings">Servings (High to Low)</option>
               <option value="time">Preparation Time</option>
               <option value="spice">Spice Level</option>
             </select>
@@ -169,7 +167,7 @@ const FoodMenu = () => {
 
       {/* Results Count */}
       <div className="results-info">
-        <p>Showing {filteredItems.length} dishes</p>
+        <p>Showing {filteredItems.length} available food donations</p>
       </div>
 
       {/* Food Items Grid */}
@@ -206,18 +204,22 @@ const FoodMenu = () => {
               <div className="food-details">
                 <div className="detail-item">
                   <FaClock />
-                  <span>{item.preparationTime}</span>
+                  <span>Ready in {item.preparationTime}</span>
                 </div>
                 <div className="detail-item">
-                  <FaLeaf />
-                  <span>{item.servings} servings</span>
+                  <FaUtensils />
+                  <span>{item.servings} servings available</span>
                 </div>
                 {item.spiceLevel !== "None" && (
                   <div className="detail-item">
                     <FaFire />
-                    <span>{item.spiceLevel}</span>
+                    <span>{item.spiceLevel} spice level</span>
                   </div>
                 )}
+                <div className="detail-item">
+                  <FaMapMarkerAlt />
+                  <span>Pickup available</span>
+                </div>
               </div>
 
               <div className="ingredients">
@@ -227,36 +229,32 @@ const FoodMenu = () => {
               </div>
 
               <div className="food-footer">
-                <div className="price">
-                  <span className="price-amount">₹{item.price}</span>
-                  <span className="price-per">per dish</span>
+                <div className="donation-info">
+                  <span className="free-badge">🎁 FREE DONATION</span>
+                  <span className="servings-info">
+                    {item.servings} people can be fed
+                  </span>
                 </div>
 
-                <div className="cart-controls">
-                  {isInCart(item.id) ? (
-                    <div className="quantity-controls">
+                <div className="claim-controls">
+                  {isClaimed(item.id) ? (
+                    <div className="claimed-status">
                       <button
-                        className="quantity-btn"
-                        onClick={() => removeFromCart(item.id)}
+                        className="claimed-btn"
+                        onClick={() => removeClaim(item.id)}
                       >
-                        <FaMinus />
+                        <FaCheckCircle /> Claimed
                       </button>
-                      <span className="quantity">
-                        {getItemQuantity(item.id)}
+                      <span className="claimed-text">
+                        You've claimed this food!
                       </span>
-                      <button
-                        className="quantity-btn"
-                        onClick={() => addToCart(item)}
-                      >
-                        <FaPlus />
-                      </button>
                     </div>
                   ) : (
                     <button
-                      className="add-to-cart-btn"
-                      onClick={() => addToCart(item)}
+                      className="claim-btn"
+                      onClick={() => claimFood(item)}
                     >
-                      <FaShoppingCart /> Add to Cart
+                      <FaHeart /> Claim This Food
                     </button>
                   )}
                 </div>
@@ -268,7 +266,7 @@ const FoodMenu = () => {
 
       {filteredItems.length === 0 && (
         <div className="no-results">
-          <h3>🔍 No dishes found</h3>
+          <h3>🔍 No food donations found</h3>
           <p>
             Try adjusting your search or filters to find what you're looking
             for.
