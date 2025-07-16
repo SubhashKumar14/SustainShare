@@ -77,7 +77,7 @@ const Signup = () => {
         role: user.role,
       };
 
-      const res = await API.post("/auth/signup", payload);
+      await API.post("/auth/signup", payload);
 
       toast.success("Account created successfully!", {
         position: "top-center",
