@@ -46,6 +46,12 @@ const Navbar = () => {
             >
               <FaHome className="nav-icon" /> Home
             </Link>
+            <Link
+              to="/menu"
+              className={`nav-link ${location.pathname === "/menu" ? "active" : ""}`}
+            >
+              🍽️ Menu
+            </Link>
             <CartButton />
             <Link
               to="/signup"
