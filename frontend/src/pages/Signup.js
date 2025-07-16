@@ -69,14 +69,12 @@ const Signup = () => {
 
     try {
       const payload = {
-        userId: user.userId,
+        id: user.id,
         name: user.name,
-        username: user.userId,
+        username: user.username || user.id,
         email: user.email,
         password: user.password,
         role: user.role,
-        address: "", // Add if your backend requires it
-        phone: "", // Add if your backend requires it
       };
 
       const res = await API.post("/auth/signup", payload);
