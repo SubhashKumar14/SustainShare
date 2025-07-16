@@ -85,7 +85,7 @@ const Signup = () => {
       });
 
       setTimeout(() => {
-        navigate(`/${user.role.toLowerCase()}-dashboard`);
+        navigate(`/${user.role}`);
       }, 2000);
     } catch (err) {
       const errorMsg =
