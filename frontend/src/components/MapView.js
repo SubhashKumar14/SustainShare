@@ -82,11 +82,14 @@ const MapView = ({ donorLocation, charityLocation }) => {
   };
 
   const toggleRoute = () => setRouteVisible(!routeVisible);
-  const centerMap = () =>
+  const centerMap = () => {
+    const finalDonorLoc = donorLocation || [17.4126, 78.4448];
+    const finalCharityLoc = charityLocation || [17.3616, 78.4747];
     setMapCenter([
-      (donorLocation[0] + charityLocation[0]) / 2,
-      (donorLocation[1] + charityLocation[1]) / 2,
+      (finalDonorLoc[0] + finalCharityLoc[0]) / 2,
+      (finalDonorLoc[1] + finalCharityLoc[1]) / 2,
     ]);
+  };
 
   // If no locations provided, use default Hyderabad coordinates
   const defaultDonorLocation = donorLocation || [17.4126, 78.4448]; // Hitec City, Hyderabad
