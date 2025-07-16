@@ -177,7 +177,8 @@ export const checkBackendConnection = async () => {
     clearTimeout(timeoutId);
     return response.ok;
   } catch (error) {
-    // Silently fail - this is expected when backend is not running
+    // Handle all errors silently - AbortError, network errors, etc.
+    // This is expected when backend is not running
     return false;
   }
 };
