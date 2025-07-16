@@ -42,7 +42,7 @@ const Signup = () => {
       );
     }
 
-    if (name === "userId") {
+    if (name === "id") {
       setUserIdError(
         value.length > 0 && !/^[a-zA-Z0-9_]+$/.test(value)
           ? "Only letters, numbers and underscores allowed"
