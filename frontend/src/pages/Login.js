@@ -21,14 +21,14 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        formData,
-      );
+      const res = await API.post("/auth/login", formData);
       toast.success("Login successful!", {
         position: "top-center",
         autoClose: 2000,
       });
+
+      // Store user data
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
 
       // Redirect with slight delay for toast to show
       setTimeout(() => {
@@ -37,10 +37,9 @@ const Login = () => {
         else if (role === "charity") navigate("/charity");
         else if (role === "admin") navigate("/admin");
         else navigate("/"); // fallback
-      }, 2000);
+      }, 1500);
     } catch (err) {
-      const errorMessage =
-        err.response?.data?.message || "Login failed. Please try again.";
+      const errorMessage = err.message || "Login failed. Please try again.";
       toast.error(errorMessage, {
         position: "top-center",
         autoClose: 3000,
