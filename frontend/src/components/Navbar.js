@@ -46,6 +46,7 @@ const Navbar = () => {
             >
               <FaHome className="nav-icon" /> Home
             </Link>
+            <CartButton />
             <Link
               to="/signup"
               className={`nav-link ${location.pathname === "/signup" ? "active" : ""}`}
