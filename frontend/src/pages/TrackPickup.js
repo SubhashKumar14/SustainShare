@@ -24,7 +24,7 @@ const TrackPickup = () => {
 
   useEffect(() => {
     fetchTrackingData();
-  }, [donationId]);
+  }, [donationId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchTrackingData = async () => {
     try {
