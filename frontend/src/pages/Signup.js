@@ -114,9 +114,9 @@ const Signup = () => {
             </span>
             <input
               type="text"
-              name="userId"
+              name="id"
               placeholder="Choose a Unique ID"
-              value={user.userId}
+              value={user.id}
               onChange={handleChange}
               className="auth-input"
               required
