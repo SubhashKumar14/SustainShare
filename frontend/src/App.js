@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DonorDashboard from "./pages/DonorDashboard";
-import CharityDashboard from "./pages/CharityDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import TrackPickup from "./pages/TrackPickup";
-import "leaflet/dist/leaflet.css";
-import { AuthProvider } from "./contexts/AuthContext";
-import { CartProvider } from "./contexts/CartContext";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import AvailableFood from "./pages/AvailableFood";
-import FoodList from "./components/FoodList";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { initializeDemoData } from "./services/demoData";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DonorDashboard from './pages/DonorDashboard';
+import CharityDashboard from './pages/CharityDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import TrackPickup from './pages/TrackPickup';
+import 'leaflet/dist/leaflet.css';
+import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import AvailableFood from './pages/AvailableFood';
+import FoodList from './components/FoodList';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { initializeDemoData } from './services/demoData';
 
 function App() {
   useEffect(() => {
@@ -23,9 +23,10 @@ function App() {
     initializeDemoData();
   }, []);
 
-  return (
+    return (
     <AuthProvider>
-      <Router>
+      <CartProvider>
+        <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -34,11 +35,11 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/foodlist" element={<FoodList />} />
+          <Route path="/foodlist" element={<FoodList/>}/>
           <Route path="/available-food" element={<AvailableFood />} />
           <Route path="/track/:donationId" element={<TrackPickup />} />
         </Routes>
-        <ToastContainer
+        <ToastContainer 
           position="bottom-right"
           autoClose={3000}
           hideProgressBar={false}
