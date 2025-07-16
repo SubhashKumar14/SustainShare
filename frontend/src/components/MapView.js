@@ -87,9 +87,12 @@ const MapView = ({ donorLocation, charityLocation }) => {
       (donorLocation[1] + charityLocation[1]) / 2,
     ]);
 
-  if (!donorLocation || !charityLocation) {
-    return <div className="map-placeholder">Loading locations...</div>;
-  }
+  // If no locations provided, use default Hyderabad coordinates
+  const defaultDonorLocation = donorLocation || [17.4126, 78.4448]; // Hitec City, Hyderabad
+  const defaultCharityLocation = charityLocation || [17.3616, 78.4747]; // Charminar, Hyderabad
+
+  const finalDonorLocation = donorLocation || defaultDonorLocation;
+  const finalCharityLocation = charityLocation || defaultCharityLocation;
 
   return (
     <div className="map-tracker-container">
