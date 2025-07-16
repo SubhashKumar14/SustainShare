@@ -207,8 +207,8 @@ const Signup = () => {
               className="auth-select"
               required
             >
-              <option value="DONOR">Food Donor</option>
-              <option value="CHARITY">Charity Organization</option>
+              <option value="donor">Food Donor</option>
+              <option value="charity">Charity Organization</option>
             </select>
           </div>
 
