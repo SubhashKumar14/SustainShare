@@ -169,23 +169,9 @@ export const checkBackendConnection = async () => {
   return false;
 };
 
-// Cache backend availability to avoid repeated checks
-let backendAvailableCache = null;
-let lastBackendCheck = 0;
-const BACKEND_CHECK_CACHE_DURATION = 30000; // 30 seconds
-
+// In this environment, backend is not available
 const isBackendAvailable = async () => {
-  const now = Date.now();
-  if (
-    backendAvailableCache !== null &&
-    now - lastBackendCheck < BACKEND_CHECK_CACHE_DURATION
-  ) {
-    return backendAvailableCache;
-  }
-
-  backendAvailableCache = await checkBackendConnection();
-  lastBackendCheck = now;
-  return backendAvailableCache;
+  return false;
 };
 
 // Smart API wrapper that tries backend first, falls back to mock
