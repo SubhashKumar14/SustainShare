@@ -288,15 +288,21 @@ export const smartApi = {
 
   delete: async (url) => {
     try {
-      const backendAvailable = await checkBackendConnection();
+      const backendAvailable = await isBackendAvailable();
       if (!backendAvailable) {
         throw new Error("Backend not available");
       }
 
       // Try real API
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
       const response = await fetch(`http://localhost:8080/api${url}`, {
         method: "DELETE",
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) throw new Error("API request failed");
 
