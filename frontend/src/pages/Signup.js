@@ -56,7 +56,7 @@ const Signup = () => {
     setIsLoading(true);
 
     // Final validation
-    if (!user.userId || !user.name || !user.email || !user.password) {
+    if (!user.id || !user.name || !user.email || !user.password) {
       toast.error("All fields are required", { position: "top-center" });
       setIsLoading(false);
       return;
