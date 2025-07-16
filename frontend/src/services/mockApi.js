@@ -226,7 +226,8 @@ export const smartApi = {
       const data = await response.json();
       return { data };
     } catch (error) {
-      // Fall back to mock API
+      // Fall back to mock API - handle all errors including AbortError
+      // This is expected when backend is not available or times out
 
       // Handle different endpoints
       if (url === "/food") {
