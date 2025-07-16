@@ -165,19 +165,19 @@ export const mockApi = {
 // Check if backend is available
 export const checkBackendConnection = async () => {
   try {
-    // Use AbortController for timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1000);
-
-    const response = await fetch("http://localhost:8080/api/health", {
+    // Simple fetch with a basic timeout using Promise.race
+    const fetchPromise = fetch("http://localhost:8080/api/health", {
       method: "GET",
-      signal: controller.signal,
     });
 
-    clearTimeout(timeoutId);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("timeout")), 1000),
+    );
+
+    const response = await Promise.race([fetchPromise, timeoutPromise]);
     return response.ok;
   } catch (error) {
-    // Handle all errors silently - AbortError, network errors, etc.
+    // Handle all errors silently - timeout, network errors, etc.
     // This is expected when backend is not running
     return false;
   }
