@@ -42,15 +42,16 @@ const MapView = ({ donorLocation, charityLocation }) => {
 
   // Calculate distance and center when locations change
   useEffect(() => {
-    if (donorLocation && charityLocation) {
-      const dist = calculateDistance(donorLocation, charityLocation);
-      setDistance(dist);
-      setTravelTime(calculateTravelTime(dist));
-      setMapCenter([
-        (donorLocation[0] + charityLocation[0]) / 2,
-        (donorLocation[1] + charityLocation[1]) / 2,
-      ]);
-    }
+    const finalDonorLoc = donorLocation || [17.4126, 78.4448];
+    const finalCharityLoc = charityLocation || [17.3616, 78.4747];
+
+    const dist = calculateDistance(finalDonorLoc, finalCharityLoc);
+    setDistance(dist);
+    setTravelTime(calculateTravelTime(dist));
+    setMapCenter([
+      (finalDonorLoc[0] + finalCharityLoc[0]) / 2,
+      (finalDonorLoc[1] + finalCharityLoc[1]) / 2,
+    ]);
   }, [donorLocation, charityLocation]);
 
   // Calculate distance in km using Haversine formula
