@@ -46,7 +46,6 @@ export const indianFoodCategories = {
         type: "Veg",
         spiceLevel: "None",
         servings: 2,
-        price: 60,
         preparationTime: "20 mins",
         ingredients: ["Wheat Flour", "Yogurt", "Milk", "Yeast", "Garlic"],
       },
