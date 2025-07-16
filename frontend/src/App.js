@@ -37,6 +37,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/foodlist" element={<FoodList />} />
+            <Route path="/menu" element={<FoodMenu />} />
             <Route path="/available-food" element={<AvailableFood />} />
             <Route path="/track/:donationId" element={<TrackPickup />} />
           </Routes>
