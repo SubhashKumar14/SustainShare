@@ -55,6 +55,13 @@ const Login = () => {
         <div className="auth-header">
           <h2>Welcome Back</h2>
           <p>Sign in to continue to SustainShare</p>
+          <div className="demo-notice">
+            <p>
+              <strong>Demo Credentials:</strong>
+            </p>
+            <p>Donor: rajesh@example.com / password123</p>
+            <p>Charity: charity@helpinghands.org / password123</p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
