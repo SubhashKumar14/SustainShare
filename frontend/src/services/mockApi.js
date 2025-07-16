@@ -269,7 +269,7 @@ export const smartApi = {
       const responseData = await response.json();
       return { data: responseData };
     } catch (error) {
-      console.log("Falling back to mock API for POST", url);
+      // Fall back to mock API
 
       // Handle different endpoints
       if (url === "/auth/signup") {
