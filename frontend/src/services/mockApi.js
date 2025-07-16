@@ -182,23 +182,50 @@ export const checkBackendConnection = async () => {
   }
 };
 
+// Cache backend availability to avoid repeated checks
+let backendAvailableCache = null;
+let lastBackendCheck = 0;
+const BACKEND_CHECK_CACHE_DURATION = 30000; // 30 seconds
+
+const isBackendAvailable = async () => {
+  const now = Date.now();
+  if (
+    backendAvailableCache !== null &&
+    now - lastBackendCheck < BACKEND_CHECK_CACHE_DURATION
+  ) {
+    return backendAvailableCache;
+  }
+
+  backendAvailableCache = await checkBackendConnection();
+  lastBackendCheck = now;
+  return backendAvailableCache;
+};
+
 // Smart API wrapper that tries backend first, falls back to mock
 export const smartApi = {
   get: async (url) => {
     try {
-      const backendAvailable = await checkBackendConnection();
+      const backendAvailable = await isBackendAvailable();
       if (!backendAvailable) {
         throw new Error("Backend not available");
       }
 
       // Try real API
-      const response = await fetch(`http://localhost:8080/api${url}`);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch(`http://localhost:8080/api${url}`, {
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
       if (!response.ok) throw new Error("API request failed");
 
       const data = await response.json();
       return { data };
     } catch (error) {
-      console.log("Falling back to mock API for GET", url);
+      // Silently fall back to mock API
 
       // Handle different endpoints
       if (url === "/food") {
