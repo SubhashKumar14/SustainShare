@@ -155,7 +155,7 @@ const MapView = ({ donorLocation, charityLocation }) => {
         {/* Route Line */}
         {routeVisible && (
           <Polyline
-            positions={[donorLocation, charityLocation]}
+            positions={[finalDonorLocation, finalCharityLocation]}
             color="#3b82f6"
             weight={4}
             dashArray="10, 10"
