@@ -314,11 +314,7 @@ const Home = () => {
             <p>Making every meal count</p>
           </div>
           <div className="footer-right">
-            <div className="footer-links">
-              <a href="/donor">Donor Portal</a>
-              <a href="/charity">Charity Portal</a>
-              <a href="/admin">Admin Panel</a>
-            </div>
+            <div className="footer-links"></div>
             <div className="footer-stats">
               <span>🌟 Trusted by {stats.partnerCharities}+ organizations</span>
             </div>
