@@ -1,8 +1,52 @@
-import axios from 'axios';
+import axios from "axios";
+import { smartApi } from "./mockApi";
 
 const API = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: "http://localhost:8080/api",
 });
 
+// Enhanced API with fallback to mock
+const enhancedAPI = {
+  get: async (url) => {
+    try {
+      const response = await API.get(url);
+      return response;
+    } catch (error) {
+      console.log("API error, falling back to mock:", error.message);
+      return await smartApi.get(url);
+    }
+  },
 
-export default API;
+  post: async (url, data) => {
+    try {
+      const response = await API.post(url, data);
+      return response;
+    } catch (error) {
+      console.log("API error, falling back to mock:", error.message);
+      return await smartApi.post(url, data);
+    }
+  },
+
+  delete: async (url) => {
+    try {
+      const response = await API.delete(url);
+      return response;
+    } catch (error) {
+      console.log("API error, falling back to mock:", error.message);
+      return await smartApi.delete(url);
+    }
+  },
+
+  put: async (url, data) => {
+    try {
+      const response = await API.put(url, data);
+      return response;
+    } catch (error) {
+      console.log("API error, falling back to mock:", error.message);
+      // For now, treat PUT like POST
+      return await smartApi.post(url, data);
+    }
+  },
+};
+
+export default enhancedAPI;
